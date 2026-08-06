@@ -46,6 +46,8 @@ Screenshots will be added as the public release documentation matures.
 
 ## Windows App Install
 
+Download the current Windows installer from [DOWNLOAD.md](DOWNLOAD.md).
+
 Prebuilt Windows artifacts are written to `release/` by `npm run dist:win`:
 
 - `Community ERP Setup 0.1.0.exe` - guided Windows installer with Start Menu and desktop shortcuts.
@@ -125,6 +127,7 @@ If `data/app.db` is missing during development, run `npm run db:migrate` first; 
 
 ## Documentation
 
+- [Download the Windows Installer](DOWNLOAD.md)
 - [Accounting Posting Flows](docs/accounting-posting.md)
 - [API Recipes](docs/api.http)
 - [Intelligence API Recipes](docs/api-intelligence.http)

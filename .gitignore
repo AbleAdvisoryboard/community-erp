@@ -30,6 +30,7 @@ dist/
 out/
 build/
 *.exe
+!downloads/*.exe
 *.msi
 *.dmg
 *.AppImage
