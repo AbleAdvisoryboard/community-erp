@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community ERP â€“ Volunteers</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="logo">Community ERP</div>
+        <nav><!-- nav.js populates items --></nav>
+      </aside>
+      <header class="topbar">
+        <div class="actions">
+          <button class="button secondary" id="toggle-theme">Toggle Theme</button>
+          <button class="button secondary" id="logout-button" style="display:none;">Logout</button>
+          <div class="badge" id="user-display">Guest</div>
+        </div>
+      </header>
+      <main class="content">
+        <h1 class="page-title">Volunteer Engagement</h1>
+        <p class="page-subtitle">Track profiles, scheduled shifts, and service hours.</p>
+
+        <section class="card" data-auth-card style="display:none;">
+          <h2>Log In</h2>
+          <form id="login-form" class="login-form" style="display:flex;flex-direction:column;gap:12px;max-width:320px;">
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" value="admin@example.com" required />
+            </label>
+            <label>
+              <span>Password</span>
+              <input type="password" name="password" value="Passw0rd!" required />
+            </label>
+            <button class="button" type="submit">Sign In</button>
+            <p class="page-subtitle" id="login-error" style="display:none;color:var(--color-danger);">Invalid credentials</p>
+          </form>
+        </section>
+
+        <section class="card" data-access-section="volunteer_engagement" data-access-feature="volunteers">
+          <header style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+            <div>
+              <h2>Volunteers</h2>
+              <p class="page-subtitle" id="volunteer-count">Loading volunteersâ€¦</p>
+            </div>
+            <form id="volunteer-form" class="volunteer-form">
+              <label style="display:flex;flex-direction:column;gap:6px;">
+                <span>Contact</span>
+                <select name="contactId" id="volunteer-contact-select" required>
+                  <option value="">Select contact</option>
+                </select>
+              </label>
+              <label style="display:flex;flex-direction:column;gap:6px;">
+                <span>Skills</span>
+                <div class="volunteer-pick-list">
+                  <select id="skill-select" aria-label="Skills list" multiple size="4"></select>
+                  <button class="button secondary" id="skill-new-btn" type="button" title="Create new skill">New</button>
+                  <button class="button danger" id="remove-skill-btn" type="button">Delete</button>
+                </div>
+                <div id="selected-skills" class="tag-list" style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;"></div>
+              </label>
+              <label style="display:flex;flex-direction:column;gap:6px;">
+                <span>Interests</span>
+                <div class="volunteer-pick-list">
+                  <select id="interest-select" aria-label="Interests list" multiple size="4"></select>
+                  <button class="button secondary" id="interest-new-btn" type="button" title="Create new interest">New</button>
+                  <button class="button danger" id="remove-interest-btn" type="button">Delete</button>
+                </div>
+                <div id="selected-interests" class="tag-list" style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;"></div>
+              </label>
+              <div class="form-actions">
+                <button class="button" type="submit">Add Volunteer</button>
+              </div>
+            </form>
+            <p class="page-subtitle" id="volunteer-message" style="display:none;margin-top:12px;"></p>
+            <div style="border-top:1px solid var(--color-border);margin-top:12px;padding-top:12px;display:flex;gap:12px;align-items:end;flex-wrap:wrap;">
+              <label style="display:flex;flex-direction:column;gap:6px;min-width:180px;">
+                <span>Sort By</span>
+                <select id="vol-sort-by">
+                  <option value="name">Name</option>
+                  <option value="email">Email</option>
+                  <option value="status">Status</option>
+                  <option value="skills">Skills</option>
+                  <option value="interests">Interests</option>
+                </select>
+              </label>
+              <label style="display:flex;flex-direction:column;gap:6px;min-width:160px;">
+                <span>Direction</span>
+                <select id="vol-sort-dir">
+                  <option value="asc">A to Z</option>
+                  <option value="desc">Z to A</option>
+                </select>
+              </label>
+              <label style="display:flex;flex-direction:column;gap:6px;min-width:220px;">
+                <span>Filter (optional)</span>
+                <input type="text" id="vol-filter-text" placeholder="Type to filter selected category" />
+              </label>
+              <button class="button secondary" type="button" id="vol-apply-sort">Apply</button>
+            </div>
+          </header>
+          <div class="table-wrapper" style="overflow:auto;margin-top:16px;max-height:240px;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Skills</th>
+                  <th>Interests</th>
+                  <th>Status</th>
+
+                </tr>
+              </thead>
+              <tbody data-volunteers-body>
+                <tr><td colspan="6">Loadingâ€¦</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="card" data-access-section="volunteer_engagement" data-access-feature="shifts">
+          <h2>Shifts</h2>
+          <form id="shift-form" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;align-items:end;">
+            <label>
+              <span>Volunteer</span>
+              <select name="volunteerId" id="shift-volunteer-select">
+                <option value="">Unassigned</option>
+              </select>
+            </label>
+            <label>
+              <span>Event</span>
+              <select name="eventId" id="shift-event-select">
+                <option value="">No event</option>
+              </select>
+            </label>
+            <label>
+              <span>Title</span>
+              <input type="text" name="title" placeholder="Community Meal" required />
+            </label>
+            <label>
+              <span>Start</span>
+              <input type="datetime-local" name="startAt" required />
+            </label>
+            <label>
+              <span>End</span>
+              <input type="datetime-local" name="endAt" />
+            </label>
+            <button class="button" type="submit">Schedule Shift</button>
+          </form>
+          <p class="page-subtitle" id="shift-message" style="display:none;margin-top:12px;"></p>
+          <div style="border-top:1px solid var(--color-border);margin-top:12px;padding-top:12px;display:flex;gap:12px;align-items:end;flex-wrap:wrap;">
+            <label style="display:flex;flex-direction:column;gap:6px;min-width:180px;">
+              <span>Sort By</span>
+              <select id="shift-sort-by">
+                <option value="start">Start</option>
+                <option value="event">Event</option>
+                <option value="title">Title</option>
+                <option value="volunteer">Volunteer</option>
+                <option value="status">Status</option>
+              </select>
+            </label>
+            <label style="display:flex;flex-direction:column;gap:6px;min-width:160px;">
+              <span>Direction</span>
+              <select id="shift-sort-dir">
+                <option value="asc">A to Z</option>
+                <option value="desc">Z to A</option>
+              </select>
+            </label>
+            <label style="display:flex;flex-direction:column;gap:6px;min-width:220px;">
+              <span>Filter (optional)</span>
+              <input type="text" id="shift-filter-text" placeholder="Type to filter selected category" />
+            </label>
+            <button class="button secondary" type="button" id="shift-apply-sort">Apply</button>
+          </div>
+          <div class="table-wrapper" style="overflow:auto;margin-top:16px;max-height:240px;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Event</th>
+                  <th>Title</th>
+                  <th>Volunteer</th>
+                  <th>Start</th>
+                  <th>Status</th>
+
+                </tr>
+              </thead>
+              <tbody data-shifts-body>
+                <tr><td colspan="5">No shifts recorded.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+        </section>
+
+        <section class="card" data-access-section="volunteer_engagement" data-access-feature="hours">
+          <h2>Hours</h2>
+
+          <form id="hours-form" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;align-items:end;margin-top:24px;">
+            <label>
+              <span>Volunteer</span>
+              <select name="volunteerId" id="hours-volunteer-select" required>
+                <option value="">Select volunteer</option>
+              </select>
+            </label>
+            <label>
+              <span>Event</span>
+              <select name="eventId" id="hours-event-select">
+                <option value="">No event</option>
+              </select>
+            </label>
+            <label>
+              <span>Date</span>
+              <input type="date" name="serviceDate" required />
+            </label>
+            <label>
+              <span>Hours</span>
+              <input type="number" step="0.25" name="hours" required />
+            </label>
+            <button class="button" type="submit">Log Hours</button>
+          </form>
+          <p class="page-subtitle" id="hours-message" style="display:none;margin-top:12px;"></p>
+          <div style="border-top:1px solid var(--color-border);margin-top:12px;padding-top:12px;display:flex;gap:12px;align-items:end;flex-wrap:wrap;">
+            <label style="display:flex;flex-direction:column;gap:6px;min-width:180px;">
+              <span>Sort By</span>
+              <select id="hours-sort-by">
+                <option value="volunteer">Volunteer</option>
+                <option value="event">Event</option>
+                <option value="total">Total</option>
+                <option value="mtd">MTD</option>
+                <option value="ytd">YTD</option>
+              </select>
+            </label>
+            <label style="display:flex;flex-direction:column;gap:6px;min-width:160px;">
+              <span>Direction</span>
+              <select id="hours-sort-dir">
+                <option value="asc">A to Z</option>
+                <option value="desc">Z to A</option>
+              </select>
+            </label>
+            <label style="display:flex;flex-direction:column;gap:6px;min-width:220px;">
+              <span>Filter (optional)</span>
+              <input type="text" id="hours-filter-text" placeholder="Type to filter selected category" />
+            </label>
+            <button class="button secondary" type="button" id="hours-apply-sort">Apply</button>
+          </div>
+
+          <div class="table-wrapper" style="overflow:auto;margin-top:16px;max-height:240px;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Volunteer</th>
+                  <th>Event</th>
+                  <th style="text-align:right;">Total</th>
+                  <th style="text-align:right;">MTD</th>
+                  <th style="text-align:right;">YTD</th>
+                </tr>
+              </thead>
+              <tbody data-hours-summary>
+                <tr><td colspan="5">No hours logged yet.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="/js/nav.js"></script>
+    <script type="module" src="/js/auth.js"></script>
+    <script type="module" src="/js/volunteers.js"></script>
+    <!-- Quick-create Skill Modal -->
+    <div id="skill-modal" aria-hidden="true" style="display:none;position:fixed;inset:0;z-index:1000;">
+      <div data-skill-backdrop style="position:absolute;inset:0;background:rgba(0,0,0,0.35);"></div>
+      <div role="dialog" aria-modal="true" aria-labelledby="skill-modal-title" style="position:relative;max-width:420px;margin:15vh auto;background:var(--color-surface,#fff);color:var(--color-text,#222);border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,0.2);">
+        <header style="padding:16px 20px;border-bottom:1px solid var(--color-border,#e5e7eb);display:flex;justify-content:space-between;align-items:center;">
+          <h3 id="skill-modal-title" style="margin:0;">New Skill</h3>
+          <button type="button" class="button secondary" id="skill-cancel">Close</button>
+        </header>
+        <form id="skill-form" style="padding:16px 20px;display:grid;gap:12px;">
+          <label>
+            <span>Name</span>
+            <input type="text" id="skill-name" name="name" required />
+          </label>
+          <div style="display:flex;gap:8px;justify-content:flex-end;">
+            <button type="button" class="button secondary" id="skill-cancel-2">Cancel</button>
+            <button type="submit" class="button" id="skill-submit">Create</button>
+          </div>
+          <p id="skill-error" class="page-subtitle" style="display:none;color:var(--color-danger);"></p>
+        </form>
+      </div>
+    </div>
+
+    <!-- Quick-create Interest Modal -->
+    <div id="interest-modal" aria-hidden="true" style="display:none;position:fixed;inset:0;z-index:1000;">
+      <div data-interest-backdrop style="position:absolute;inset:0;background:rgba(0,0,0,0.35);"></div>
+      <div role="dialog" aria-modal="true" aria-labelledby="interest-modal-title" style="position:relative;max-width:420px;margin:15vh auto;background:var(--color-surface,#fff);color:var(--color-text,#222);border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,0.2);">
+        <header style="padding:16px 20px;border-bottom:1px solid var(--color-border,#e5e7eb);display:flex;justify-content:space-between;align-items:center;">
+          <h3 id="interest-modal-title" style="margin:0;">New Interest</h3>
+          <button type="button" class="button secondary" id="interest-cancel">Close</button>
+        </header>
+        <form id="interest-form" style="padding:16px 20px;display:grid;gap:12px;">
+          <label>
+            <span>Name</span>
+            <input type="text" id="interest-name" name="name" required />
+          </label>
+          <div style="display:flex;gap:8px;justify-content:flex-end;">
+            <button type="button" class="button secondary" id="interest-cancel-2">Cancel</button>
+            <button type="submit" class="button" id="interest-submit">Create</button>
+          </div>
+          <p id="interest-error" class="page-subtitle" style="display:none;color:var(--color-danger);"></p>
+        </form>
+      </div>
+    </div>
+
+    <!-- Delete Skills Modal -->
+    <div id="skill-delete-modal" aria-hidden="true" style="display:none;position:fixed;inset:0;z-index:1000;">
+      <div data-skill-delete-backdrop style="position:absolute;inset:0;background:rgba(0,0,0,0.35);"></div>
+      <div role="dialog" aria-modal="true" aria-labelledby="skill-delete-title" style="position:relative;max-width:420px;margin:15vh auto;background:var(--color-surface,#fff);color:var(--color-text,#222);border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,0.2);">
+        <header style="padding:16px 20px;border-bottom:1px solid var(--color-border,#e5e7eb);display:flex;justify-content:space-between;align-items:center;">
+          <h3 id="skill-delete-title" style="margin:0;">Remove Skills</h3>
+          <button type="button" class="button secondary" id="skill-delete-cancel">Close</button>
+        </header>
+        <form id="skill-delete-form" style="padding:16px 20px;display:grid;gap:12px;">
+          <label>
+            <span>Select skills to remove</span>
+            <select id="skill-delete-select" multiple size="6"></select>
+          </label>
+          <div style="display:flex;gap:8px;justify-content:flex-end;">
+            <button type="button" class="button secondary" id="skill-delete-cancel-2">Cancel</button>
+            <button type="submit" class="button danger" id="skill-delete-submit">Remove</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Delete Interests Modal -->
+    <div id="interest-delete-modal" aria-hidden="true" style="display:none;position:fixed;inset:0;z-index:1000;">
+      <div data-interest-delete-backdrop style="position:absolute;inset:0;background:rgba(0,0,0,0.35);"></div>
+      <div role="dialog" aria-modal="true" aria-labelledby="interest-delete-title" style="position:relative;max-width:420px;margin:15vh auto;background:var(--color-surface,#fff);color:var(--color-text,#222);border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,0.2);">
+        <header style="padding:16px 20px;border-bottom:1px solid var(--color-border,#e5e7eb);display:flex;justify-content:space-between;align-items:center;">
+          <h3 id="interest-delete-title" style="margin:0;">Remove Interests</h3>
+          <button type="button" class="button secondary" id="interest-delete-cancel">Close</button>
+        </header>
+        <form id="interest-delete-form" style="padding:16px 20px;display:grid;gap:12px;">
+          <label>
+            <span>Select interests to remove</span>
+            <select id="interest-delete-select" multiple size="6"></select>
+          </label>
+          <div style="display:flex;gap:8px;justify-content:flex-end;">
+            <button type="button" class="button secondary" id="interest-delete-cancel-2">Cancel</button>
+            <button type="submit" class="button danger" id="interest-delete-submit">Remove</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

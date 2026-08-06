@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community ERP - Settings</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="logo">Community ERP</div>
+        <nav><!-- nav.js populates items --></nav>
+      </aside>
+      <header class="topbar">
+        <div class="actions">
+          <button class="button secondary" id="toggle-theme">Toggle Theme</button>
+          <button class="button secondary" id="logout-button" style="display:none;">Logout</button>
+          <div class="badge" id="user-display">Guest</div>
+        </div>
+      </header>
+      <main class="content">
+        <h1 class="page-title">Settings</h1>
+        <p class="page-subtitle">Manage organization details and who can use the system.</p>
+
+        <section class="card" data-auth-card style="display:none;">
+          <h2>Log In</h2>
+          <p class="page-subtitle">Sign in as an administrator to manage settings.</p>
+          <form id="login-form" class="login-form" style="display:flex;flex-direction:column;gap:12px;max-width:320px;">
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" value="admin@example.com" required />
+            </label>
+            <label>
+              <span>Password</span>
+              <input type="password" name="password" value="Passw0rd!" required />
+            </label>
+            <button class="button" type="submit">Sign In</button>
+            <p class="page-subtitle" id="login-error" style="display:none;color:var(--color-danger);">Invalid credentials</p>
+          </form>
+        </section>
+
+        <div class="settings-grid">
+          <section class="card">
+            <h2>Organization Profile</h2>
+            <p class="page-subtitle">This name and logo appear in the app navigation.</p>
+            <form id="organization-settings-form" class="settings-form">
+              <label class="filter-control">
+                <span>Company Name</span>
+                <input type="text" id="company-name" name="companyName" placeholder="Your organization name" />
+              </label>
+              <div class="settings-row">
+                <label class="filter-control">
+                  <span>Logo URL</span>
+                  <input type="url" id="company-logo-url" name="companyLogoUrl" placeholder="https://example.org/logo.png" />
+                </label>
+                <label class="filter-control">
+                  <span>Upload Logo</span>
+                  <input type="file" id="company-logo-file" accept="image/png,image/jpeg,image/svg+xml,image/webp" />
+                  <small class="page-subtitle">Large PNG/JPG/WebP files are resized automatically.</small>
+                </label>
+              </div>
+              <div class="settings-row" style="align-items:center;">
+                <div class="logo-preview" id="company-logo-preview">No logo</div>
+                <button class="button secondary" type="button" id="clear-company-logo">Remove Logo</button>
+              </div>
+              <button class="button" type="submit">Save Organization</button>
+              <p class="page-subtitle" id="organization-settings-status" style="display:none;"></p>
+            </form>
+          </section>
+
+          <section class="card">
+            <h2>Sign-In Security</h2>
+            <p class="page-subtitle">Control session timeout and temporary lockouts for non-admin users.</p>
+            <form id="auth-security-form" class="settings-form">
+              <div class="settings-row">
+                <label class="filter-control">
+                  <span>Timeout Minutes</span>
+                  <input type="number" name="accessTimeoutMinutes" id="access-timeout-minutes" min="5" max="720" step="1" required />
+                </label>
+                <label class="filter-control">
+                  <span>Failed Attempts</span>
+                  <input type="number" name="failedLoginLimit" id="failed-login-limit" min="3" max="20" step="1" required />
+                </label>
+                <label class="filter-control">
+                  <span>Lockout Minutes</span>
+                  <input type="number" name="lockoutMinutes" id="lockout-minutes" min="5" max="1440" step="1" required />
+                </label>
+              </div>
+              <button class="button" type="submit">Save Sign-In Security</button>
+              <p class="page-subtitle" id="auth-security-status" style="display:none;"></p>
+            </form>
+          </section>
+
+          <section class="card">
+            <h2>Finance Controls</h2>
+            <p class="page-subtitle">Choose which money actions need review and who signs off.</p>
+            <form id="finance-controls-form" class="settings-form">
+              <div class="settings-row">
+                <label class="filter-control">
+                  <span>Manual Journals</span>
+                  <select name="manualJournalApproval" id="manual-journal-approval">
+                    <option value="false">No review required</option>
+                    <option value="true">Review required</option>
+                  </select>
+                </label>
+                <label class="filter-control">
+                  <span>Journal Sign-Off</span>
+                  <input type="text" name="manualJournalApprover" id="manual-journal-approver" placeholder="Treasurer, Finance Manager, Board Officer" />
+                </label>
+              </div>
+              <div class="settings-row">
+                <label class="filter-control">
+                  <span>Bank Deposits</span>
+                  <select name="bankDepositApproval" id="bank-deposit-approval">
+                    <option value="false">No review required</option>
+                    <option value="true">Review required</option>
+                  </select>
+                </label>
+                <label class="filter-control">
+                  <span>Deposit Sign-Off</span>
+                  <input type="text" name="bankDepositApprover" id="bank-deposit-approver" placeholder="Treasurer or Finance Manager" />
+                </label>
+              </div>
+              <div class="settings-row">
+                <label class="filter-control">
+                  <span>Bills</span>
+                  <select name="billApproval" id="bill-approval">
+                    <option value="false">No review required</option>
+                    <option value="true">Review required</option>
+                  </select>
+                </label>
+                <label class="filter-control">
+                  <span>Bill Sign-Off</span>
+                  <input type="text" name="billApprover" id="bill-approver" placeholder="Executive Director or Treasurer" />
+                </label>
+              </div>
+              <div class="settings-row">
+                <label class="filter-control">
+                  <span>Payments</span>
+                  <select name="paymentApproval" id="payment-approval">
+                    <option value="false">No review required</option>
+                    <option value="true">Review required</option>
+                  </select>
+                </label>
+                <label class="filter-control">
+                  <span>Payment Sign-Off</span>
+                  <input type="text" name="paymentApprover" id="payment-approver" placeholder="Two-person review, Treasurer, or Finance Manager" />
+                </label>
+              </div>
+              <button class="button" type="submit">Save Finance Controls</button>
+              <p class="page-subtitle" id="finance-controls-status" style="display:none;"></p>
+            </form>
+          </section>
+
+          <section class="card">
+            <h2>People</h2>
+            <p class="page-subtitle">Create administrators or associates, then remove users who no longer need access.</p>
+            <form id="create-user-form" class="settings-form">
+              <div class="settings-row">
+                <label class="filter-control">
+                  <span>Name</span>
+                  <input type="text" name="displayName" placeholder="Jane Doe" required />
+                </label>
+                <label class="filter-control">
+                  <span>Email</span>
+                  <input type="email" name="email" placeholder="jane@example.org" required />
+                </label>
+              </div>
+              <div class="settings-row">
+                <label class="filter-control">
+                  <span>Access</span>
+                  <select name="accessChoice" id="user-access-choice" required>
+                    <option value="admin">Administrator</option>
+                  </select>
+                </label>
+              </div>
+              <div class="settings-row">
+                <label class="filter-control">
+                  <span>Temporary Password</span>
+                  <input type="password" name="password" autocomplete="new-password" placeholder="At least 10 characters" required />
+                </label>
+              </div>
+              <button class="button" type="submit">Create User</button>
+              <p class="page-subtitle" id="create-user-status" style="display:none;"></p>
+            </form>
+            <div style="margin-top:22px;">
+              <h3 class="section-heading">Existing Users</h3>
+              <div id="managed-users-list" class="user-list"></div>
+            </div>
+            <section class="user-management-card" id="access-editor-panel" style="margin-top:18px;">
+              <header>
+                <div>
+                  <h3 class="section-heading" id="access-editor-title">Access Options</h3>
+                  <p class="page-subtitle">Create reusable access options, then assign one to each person.</p>
+                </div>
+                <button class="button secondary" type="button" id="close-access-editor" style="display:none;">Close</button>
+              </header>
+              <div id="access-profile-list" class="access-profile-list"></div>
+              <form id="access-editor-form" class="settings-form">
+                <p class="page-subtitle">Choose an access option above or create a new one.</p>
+              </form>
+              <p class="page-subtitle" id="access-editor-status" style="display:none;"></p>
+            </section>
+          </section>
+        </div>
+      </main>
+    </div>
+    <script type="module" src="/js/nav.js"></script>
+    <script type="module" src="/js/auth.js"></script>
+    <script type="module" src="/js/settings.js"></script>
+  </body>
+</html>

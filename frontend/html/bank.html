@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community ERP - Bank Deposits</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="logo">Community ERP</div>
+        <nav></nav>
+      </aside>
+      <header class="topbar">
+        <div class="actions">
+          <button class="button secondary" id="toggle-theme">Toggle Theme</button>
+          <button class="button secondary" id="logout-button" style="display:none;">Logout</button>
+          <div class="badge" id="user-display">Guest</div>
+        </div>
+      </header>
+      <main class="content">
+        <h1 class="page-title">Bank Deposits</h1>
+        <p class="page-subtitle">Group undeposited payments into bank deposits.</p>
+
+        <section class="card" data-auth-card style="display:none;">
+          <h2>Log In</h2>
+          <form id="login-form" class="login-form" style="display:flex;flex-direction:column;gap:12px;max-width:320px;">
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" value="admin@example.com" required />
+            </label>
+            <label>
+              <span>Password</span>
+              <input type="password" name="password" value="Passw0rd!" required />
+            </label>
+            <button class="button" type="submit">Sign In</button>
+            <p class="page-subtitle" id="login-error" style="display:none;color:var(--color-danger);">Invalid credentials</p>
+          </form>
+        </section>
+
+        <section class="card">
+          <header style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+            <div>
+              <h2>Undeposited Payments</h2>
+              <p class="page-subtitle" id="undeposited-summary">Loading...</p>
+            </div>
+            <form id="deposit-form" style="display:flex;gap:8px;align-items:end;flex-wrap:wrap;">
+              <label style="display:flex;flex-direction:column;font-size:0.75rem;gap:4px;">
+                <span>Bank Account</span>
+                <select id="bank-account"></select>
+              </label>
+              <label style="display:flex;flex-direction:column;font-size:0.75rem;gap:4px;">
+                <span>Date</span>
+                <input type="date" id="deposit-date" />
+              </label>
+              <label style="display:flex;flex-direction:column;font-size:0.75rem;gap:4px;min-width:220px;">
+                <span>Memo (optional)</span>
+                <input type="text" id="deposit-memo" placeholder="Deposit memo" />
+              </label>
+              <button class="button" type="submit">Create Deposit</button>
+            </form>
+          </header>
+          <div class="table-wrapper" style="overflow:auto;margin-top:16px;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th><input type="checkbox" id="select-all" /></th>
+                  <th>ID</th>
+                  <th>Invoice</th>
+                  <th>Date</th>
+                  <th>Method</th>
+                  <th style="text-align:right;">Amount</th>
+                </tr>
+              </thead>
+              <tbody data-undeposited></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="/js/nav.js"></script>
+    <script type="module" src="/js/auth.js"></script>
+    <script type="module" src="/js/bank.js"></script>
+  </body>
+  </html>

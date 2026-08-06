@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community ERP - Calendar</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="logo">Community ERP</div>
+        <nav></nav>
+      </aside>
+      <header class="topbar">
+        <div class="actions">
+          <button class="button secondary" id="toggle-theme">Toggle Theme</button>
+          <button class="button secondary" id="logout-button" style="display:none;">Logout</button>
+          <div class="badge" id="user-display">Guest</div>
+        </div>
+      </header>
+      <main class="content">
+        <header class="page-header">
+          <h1>Calendar</h1>
+          <p class="page-subtitle">
+            See events and add meetings or other schedule items in one view.
+          </p>
+        </header>
+
+        <section class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <button class="button secondary" data-calendar-nav="prev">&lt;</button>
+              <h2 id="calendar-month-label" style="margin:0;"></h2>
+              <button class="button secondary" data-calendar-nav="next">&gt;</button>
+              <button class="button ghost" data-calendar-nav="today">Today</button>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="display:inline-flex;align-items:center;gap:4px;">
+                <span style="width:10px;height:10px;border-radius:999px;background:var(--color-primary);display:inline-block;"></span>
+                <span class="page-subtitle">Event</span>
+              </span>
+              <span style="display:inline-flex;align-items:center;gap:4px;">
+                <span style="width:10px;height:10px;border-radius:999px;background:var(--color-success);display:inline-block;"></span>
+                <span class="page-subtitle">Meeting</span>
+              </span>
+              <span style="display:inline-flex;align-items:center;gap:4px;">
+                <span style="width:10px;height:10px;border-radius:999px;background:#000000;display:inline-block;"></span>
+                <span class="page-subtitle">Task</span>
+              </span>
+              <span style="display:inline-flex;align-items:center;gap:4px;">
+                <span style="width:10px;height:10px;border-radius:999px;background:var(--color-danger);display:inline-block;"></span>
+                <span class="page-subtitle">Reminder</span>
+              </span>
+              <span style="display:inline-flex;align-items:center;gap:4px;">
+                <span style="width:10px;height:10px;border-radius:999px;background:#ff9800;display:inline-block;"></span>
+                <span class="page-subtitle">Other</span>
+              </span>
+            </div>
+          </div>
+
+          <div class="table-wrapper" style="margin-top:16px;">
+            <table class="table" style="table-layout:fixed;">
+              <thead>
+                <tr>
+                  <th>Sun</th>
+                  <th>Mon</th>
+                  <th>Tue</th>
+                  <th>Wed</th>
+                  <th>Thu</th>
+                  <th>Fri</th>
+                  <th>Sat</th>
+                </tr>
+              </thead>
+              <tbody id="calendar-grid">
+                <!-- calendar.js populates days and items -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Add Meeting or Schedule Item</h2>
+          <form id="calendar-item-form" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;align-items:end;">
+            <label>
+              <span>Title</span>
+              <input type="text" name="title" required />
+            </label>
+            <label>
+              <span>Date</span>
+              <input type="date" name="date" required />
+            </label>
+            <label>
+              <span>Time</span>
+              <input type="time" name="time" />
+            </label>
+            <label>
+              <span>Type</span>
+              <select name="kind">
+                <option value="Meeting">Meeting</option>
+                <option value="Task">Task</option>
+                <option value="Reminder">Reminder</option>
+                <option value="Other">Other</option>
+              </select>
+            </label>
+            <button class="button secondary" type="submit">Add to Calendar</button>
+          </form>
+          <p class="page-subtitle" id="calendar-item-message" style="display:none;margin-top:8px;"></p>
+        </section>
+
+        <section class="card">
+          <h2>Upcoming</h2>
+          <div class="table-wrapper" style="max-height:260px;overflow:auto;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>When</th>
+                  <th>Title</th>
+                  <th>Type</th>
+                  <th>Source</th>
+                </tr>
+              </thead>
+              <tbody id="calendar-upcoming-body">
+                <tr><td colspan="4">Loadingâ€¦</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="/js/nav.js"></script>
+    <script type="module" src="/js/layout.js"></script>
+    <script type="module" src="/js/auth.js"></script>
+    <script type="module" src="/js/calendar.js"></script>
+  </body>
+  </html>

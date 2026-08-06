@@ -1,0 +1,120 @@
+{
+  "name": "community-erp-nonprofits",
+  "version": "0.1.0",
+  "description": "Community ERP tailored for nonprofits and social enterprises.",
+  "author": "Joshua Jose Vazquez",
+  "license": "SEE LICENSE IN LICENSE",
+  "type": "module",
+  "main": "desktop/main.cjs",
+  "scripts": {
+    "dev": "node --watch backend/server.js",
+    "desktop": "electron .",
+    "desktop:deps": "electron-builder install-app-deps",
+    "native:node": "npm rebuild better-sqlite3 bcrypt",
+    "dist:win": "electron-builder --win nsis portable zip",
+    "start": "node backend/server.js",
+    "db:migrate": "node backend/db/migrate.js",
+    "db:seed": "node backend/db/seeds/seed_all.js",
+    "db:seed:all": "node backend/db/seeds/seed_all.js",
+    "db:seed:intel": "node backend/db/seeds/seed_intelligence.js",
+    "db:reset": "npm run db:migrate -- --reset && npm run db:seed",
+    "test": "npm run test:unit",
+    "test:api": "vitest run backend/tests/api backend/tests/intelligence.api.test.js",
+    "lint": "eslint .",
+    "test:web": "node backend/server.js",
+    "test:e2e": "playwright test",
+    "test:unit": "vitest run backend/tests/services backend/tests/report",
+    "test:watch": "vitest",
+    "test:all": "npm run lint && npm run test:unit && npm run test:api && npm run test:e2e",
+    "verify:upgrade": "node scripts/verifyUpgrade.mjs",
+    "ci": "npm run lint && npm run test:all"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "better-sqlite3": "^9.4.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.1.5",
+    "helmet": "^7.1.0",
+    "joi": "^17.11.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "nanoid": "^5.0.7",
+    "uuid": "^9.0.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.1",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/node": "^20.12.7",
+    "electron": "^28.3.3",
+    "electron-builder": "^26.15.3",
+    "eslint": "^8.57.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-promise": "^6.1.1",
+    "supertest": "^6.3.4",
+    "vitest": "^1.6.0"
+  },
+  "build": {
+    "appId": "org.communityerp.desktop",
+    "productName": "Community ERP",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      {
+        "from": "backend",
+        "to": "backend",
+        "filter": [
+          "**/*",
+          "!db/seed.js",
+          "!db/seeds/**",
+          "!tests/**"
+        ]
+      },
+      {
+        "from": "frontend",
+        "to": "frontend",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "desktop",
+        "to": "desktop",
+        "filter": [
+          "**/*"
+        ]
+      },
+      "package.json"
+    ],
+    "asar": true,
+    "asarUnpack": [
+      "node_modules/better-sqlite3/**/*",
+      "node_modules/bcrypt/**/*"
+    ],
+    "npmRebuild": true,
+    "buildDependenciesFromSource": true,
+    "afterPack": "scripts/rebuildElectronNative.cjs",
+    "win": {
+      "target": [
+        "nsis",
+        "portable",
+        "zip"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Community ERP",
+      "deleteAppDataOnUninstall": true
+    }
+  }
+}

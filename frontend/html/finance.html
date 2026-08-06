@@ -1,0 +1,41 @@
+<!DOCTYPE html><html lang="en">  <head>    <meta charset="UTF-8" />    <meta name="viewport" content="width=device-width, initial-scale=1.0" />    <title>Community ERP - General Ledger</title>    <link rel="stylesheet" href="/css/styles.css" />  </head>  <body>    <div class="app-shell">      <aside class="sidebar">        <div class="logo">Community ERP</div>        <nav><!-- nav.js populates items --></nav>      </aside>      <header class="topbar">        <div class="actions">          <button class="button secondary" id="toggle-theme">Toggle Theme</button>          <button class="button secondary" id="logout-button" style="display:none;">Logout</button>          <div class="badge" id="user-display">Guest</div>        </div>      </header>      <main class="content">        <h1 class="page-title">General Ledger</h1>        <p class="page-subtitle">Chart of accounts and trial balance snapshot.</p>        <section class="card">          <h2>Create GL Account</h2>          <form id="create-gl-account-form" class="gl-account-form">
+  <label>
+    <span>Code</span>
+    <input type="text" name="code" required maxlength="20" />
+  </label>
+  <label>
+    <span>Name</span>
+    <input type="text" name="name" required />
+  </label>
+  <label>
+    <span>Description</span>
+    <input type="text" name="description" />
+  </label>
+  <label><span>Type</span><select name="type" required>
+      <option value="Asset">Asset</option>
+      <option value="Liability">Liability</option>
+      <option value="Equity">Equity</option>
+      <option value="Revenue">Revenue</option>
+      <option value="Expense">Expense</option>
+    </select>
+  </label>
+  <label><span>FS category</span><select name="fsCategory"></select>
+  </label>
+  <button class="button" type="submit">Create</button>
+</form>          <p class="page-subtitle" id="gl-create-message" style="display:none;margin-top:8px;"></p>        </section>        <section class="card">          <h2>Enter Journal</h2>          <form id="create-journal-form" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px 8px;align-items:end;">            <label>              <span>Date</span>              <input type="date" name="journalDate" required />            </label>            <label>              <span>Memo</span>              <input type="text" name="memo" />            </label>            <div style="grid-column:1/-1;display:grid;grid-template-columns:repeat(6,1fr);gap:8px;align-items:end;">              <strong style="grid-column:1/-1;">Lines (min 2):</strong>              <label><span>Account</span>                <select name="glAccountId[]" required>                  <option value="">Select accountâ€¦</option>                </select>              </label>              <label><span>Fund</span>                <select name="fundId[]">                  <option value="">N/A</option>                </select>              </label>              <label><span>Amount</span><input type="number" step="0.01" min="0" name="amount[]" required /></label>              <label><span>Dr/Cr</span>                <select name="drcr[]" required>                  <option value="D">D</option>                  <option value="C">C</option>                </select>              </label>              <label style="grid-column:span 2;"><span>Line Memo</span><input type="text" name="lineMemo[]" /></label>              <!-- Duplicate row template handled in JS by cloning this group -->            </div>            <div style="grid-column:1/-1;display:flex;gap:8px;">              <button class="button secondary" type="button" id="add-journal-line">Add Line</button>              <button class="button" type="submit">Post Journal</button>            </div>          </form>          <p class="page-subtitle" id="journal-create-message" style="display:none;margin-top:8px;"></p>        </section>        <section class="card" data-auth-card style="display:none;">          <h2>Log In</h2>          <form id="login-form" class="login-form" style="display:flex;flex-direction:column;gap:12px 8px;max-width:320px;">            <label>              <span>Email</span>              <input type="email" name="email" value="admin@example.com" required />            </label>            <label>              <span>Password</span>              <input type="password" name="password" value="Passw0rd!" required />            </label>            <button class="button" type="submit">Sign In</button>            <p class="page-subtitle" id="login-error" style="display:none;color:var(--color-danger);">Invalid credentials</p>          </form>        </section>        <section class="card">          <header style="display:flex;justify-content:space-between;align-items:center;gap:12px 8px;flex-wrap:wrap;">            <div>              <h2>Chart of Accounts</h2>              <p class="page-subtitle" id="gl-account-summary">Loading accountsâ€¦</p>            </div>          </header>          <div class="table-wrapper" style="overflow:auto;margin-top:16px;">            <table class="table">              <thead>                <tr>                  <th>Code</th>                  <th>Name</th>                  <th>Type</th><th>FINANCIAL STATEMENT LINK</th><th>Actions</th>                </tr>              </thead>              <tbody data-gl-accounts>                <tr><td colspan="5">Loading accountsâ€¦</td></tr>              </tbody>            </table>          </div>        </section>        <section class="card">          <header style="display:flex;justify-content:space-between;align-items:center;gap:12px 8px;flex-wrap:wrap;">            <div>              <h2>Trial Balance</h2>              <p class="page-subtitle" id="trial-balance-summary">Loading balancesâ€¦</p>            </div>            <form id="tb-filters" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">              <label style="display:flex;flex-direction:column;font-size:0.75rem;gap:4px;">                <span>As of</span>                <input type="date" id="tb-asof" />              </label>              <label style="display:flex;flex-direction:column;font-size:0.75rem;gap:4px;">                <span>Fund</span>                <select id="tb-fund"></select>              </label>              <label style="display:flex;flex-direction:column;font-size:0.75rem;gap:4px;">                <span>Class</span>                <select id="tb-class"><option value="">All classes</option></select>              </label>              <button class="button secondary" type="submit">Apply</button>            </form>          </header>          <div class="table-wrapper" style="overflow:auto;margin-top:16px;">            <table class="table">              <thead>                <tr>                  <th>Account</th>                  <th>Type</th>                  <th style="text-align:right;">Debits</th>                  <th style="text-align:right;">Credits</th>                  <th style="text-align:right;">Balance</th>                </tr>              </thead>              <tbody data-trial-balance>                <tr><td colspan="5">Sign in to view the trial balance.</td></tr>              </tbody>            </table>          </div>        </section>      </main>    </div>    <script type="module" src="/js/nav.js"></script>    <script type="module" src="/js/auth.js"></script>    <script type="module" src="/js/finance2.js"></script>  </body></html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

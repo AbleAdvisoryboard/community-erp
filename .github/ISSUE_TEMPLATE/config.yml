@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security vulnerability
+    url: mailto:Contactus@aadvisoryboard.com
+    about: Please report security vulnerabilities privately by email.
+  - name: GitHub Discussions
+    url: https://github.com/
+    about: Recommended for broader questions once Discussions are enabled for this repository.

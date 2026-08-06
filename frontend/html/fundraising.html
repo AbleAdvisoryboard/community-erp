@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community ERP - Donation Console</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="logo">Community ERP</div>
+        <nav><!-- nav.js populates items --></nav>
+      </aside>
+      <header class="topbar">
+        <div class="actions">
+          <button class="button secondary" id="toggle-theme">Toggle Theme</button>
+          <button class="button secondary" id="logout-button" style="display:none;">Logout</button>
+          <div class="badge" id="user-display">Guest</div>
+        </div>
+      </header>
+      <main class="content">
+        <h1 class="page-title">Donation Console</h1>
+        <p class="page-subtitle">Track gifts and fundraising performance in one place.</p>
+
+        <section class="card" data-auth-card style="display:none;">
+          <h2>Log In</h2>
+          <form id="login-form" class="login-form" style="display:flex;flex-direction:column;gap:12px;max-width:320px;">
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" value="admin@example.com" required />
+            </label>
+            <label>
+              <span>Password</span>
+              <input type="password" name="password" value="Passw0rd!" required />
+            </label>
+            <button class="button" type="submit">Sign In</button>
+            <p class="page-subtitle" id="login-error" style="display:none;color:var(--color-danger);">Invalid credentials</p>
+          </form>
+        </section>
+
+        <section class="card">
+          <h2>Create Donation</h2>
+          <form id="donation-form" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;align-items:end;">
+            <label>
+              <span>Contact</span>
+              <select name="contactId" id="donation-contact">
+                <option value="">Select contact</option>
+              </select>
+            </label>
+            <label>
+              <span>Campaign</span>
+              <select name="campaignId" id="donation-campaign">
+                <option value="">Select campaign</option>
+              </select>
+            </label>
+            <label>
+              <span>Fund</span>
+              <select name="fundId" id="donation-fund" disabled>
+                <option value="">Select fund</option>
+              </select>
+            </label>
+            <label>
+              <span>Amount</span>
+              <input type="number" step="0.01" min="0" name="amount" required />
+            </label>
+            <label>
+              <span>Date</span>
+              <input type="date" name="donatedAt" value="" />
+            </label>
+            <label>
+              <span>Method</span>
+              <select name="paymentMethod">
+                <option value="Offline">Offline</option>
+                <option value="Cash">Cash</option>
+                <option value="Check">Check</option>
+                <option value="CreditCard">Credit Card</option>
+                <option value="ACH">ACH</option>
+                <option value="InKind">In-Kind</option>
+                <option value="Other">Other</option>
+              </select>
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;">
+              <input type="checkbox" name="isPledge" id="donation-is-pledge" />
+              <span>Pledge (not received yet)</span>
+            </label>
+            <button class="button" type="submit">Add Donation</button>
+          </form>
+          <p class="page-subtitle" id="donation-form-message" style="display:none;margin-top:12px;"></p>
+        </section>
+
+        <section class="card">
+          <header style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+            <div>
+              <h2>Donations</h2>
+              <p class="page-subtitle" id="donations-summary">Loading donations...</p>
+            </div>
+            <form id="donations-filter" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+              <label style="display:flex;flex-direction:column;font-size:0.75rem;gap:6px;">
+                <span>From</span>
+                <input type="date" name="from" />
+              </label>
+              <label style="display:flex;flex-direction:column;font-size:0.75rem;gap:6px;">
+                <span>To</span>
+                <input type="date" name="to" />
+              </label>
+              <button class="button secondary" type="submit">Apply</button>
+            </form>
+          </header>
+          <div class="table-wrapper" style="overflow:auto;margin-top:16px;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Donor</th>
+                  <th>Fund</th>
+                  <th>Campaign</th>
+                  <th>Method</th>
+                  <th style="text-align:right;">Amount</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody data-donations-body>
+                <tr><td colspan="7">Sign in to load donations.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="/js/nav.js"></script>
+    <script type="module" src="/js/auth.js"></script>
+    <script type="module" src="/js/fundraising.js"></script>
+  </body>
+</html>
+

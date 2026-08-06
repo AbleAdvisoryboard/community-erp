@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community ERP – Dashboard</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" data-component="sidebar">
+        <div class="logo">Community ERP</div>
+        <nav><!-- nav.js populates items --></nav>
+      </aside>
+      <header class="topbar">
+        <div class="actions">
+          <button class="button secondary" id="toggle-theme">Toggle Theme</button>
+          <button class="button secondary" id="logout-button" style="display:none;">Logout</button>
+          <div class="badge" id="user-display">Guest</div>
+        </div>
+      </header>
+      <main class="content">
+        <h1 class="page-title">Welcome back</h1>
+        <p class="page-subtitle">Snapshot of CRM and fundraising performance.</p>
+        <section class="card" data-auth-card style="display:none;">
+          <h2>Log In</h2>
+          <p class="page-subtitle">Use the seeded admin credentials to start exploring.</p>
+          <form id="login-form" class="login-form" style="display:flex;flex-direction:column;gap:12px;max-width:320px;">
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" value="admin@example.com" required />
+            </label>
+            <label>
+              <span>Password</span>
+              <input type="password" name="password" value="Passw0rd!" required />
+            </label>
+            <button class="button" type="submit">Sign In</button>
+            <p class="page-subtitle" id="login-error" style="display:none;color:var(--color-danger);">Invalid credentials</p>
+          </form>
+        </section>
+        <section class="card" data-dashboard-section data-auth-required style="display:none;">
+          <div class="kpi-heading">
+            <h2>Organization Pulse</h2>
+            <p class="page-subtitle" data-dashboard-loading>Loading key metrics...</p>
+            <p class="page-subtitle kpi-error" data-dashboard-error style="display:none;"></p>
+          </div>
+          <div class="kpi-grid">
+            <article class="kpi-panel">
+              <header class="kpi-panel__header">
+                <h3>Fundraising</h3>
+                <span class="kpi-pill" data-kpi="fundraising-donors">-- donors YTD</span>
+              </header>
+              <div class="kpi-metric">
+                <span class="kpi-label">Donations MTD</span>
+                <span class="kpi-value" data-kpi="fundraising-mtd">--</span>
+                <span class="kpi-subvalue" data-kpi="fundraising-mtd-count">-- gifts</span>
+              </div>
+              <div class="kpi-metric">
+                <span class="kpi-label">Donations YTD</span>
+                <span class="kpi-value" data-kpi="fundraising-ytd">--</span>
+                <span class="kpi-subvalue" data-kpi="fundraising-ytd-count">-- gifts</span>
+              </div>
+              <div class="kpi-metric">
+                <span class="kpi-label">Average Gift (YTD)</span>
+                <span class="kpi-value" data-kpi="fundraising-average">--</span>
+              </div>
+              <div class="kpi-metric">
+                <span class="kpi-label">Top Campaign</span>
+                <span class="kpi-value" data-kpi="fundraising-top-name">--</span>
+                <span class="kpi-subvalue" data-kpi="fundraising-top-total">--</span>
+              </div>
+            </article>
+            <article class="kpi-panel">
+              <header class="kpi-panel__header">
+                <h3>Finance</h3>
+              </header>
+              <div class="kpi-metric">
+                <span class="kpi-label">Cash on Hand</span>
+                <span class="kpi-value" data-kpi="finance-cash">--</span>
+              </div>
+              <div class="kpi-metric">
+                <span class="kpi-label">Liabilities</span>
+                <span class="kpi-value" data-kpi="finance-liabilities">--</span>
+              </div>
+              <div class="kpi-metric">
+                <span class="kpi-label">Net Assets</span>
+                <span class="kpi-value" data-kpi="finance-net">--</span>
+              </div>
+              <div class="kpi-metric">
+                <span class="kpi-label">Operating Result (YTD)</span>
+                <span class="kpi-value" data-kpi="finance-operating">--</span>
+                <span class="kpi-subvalue" data-kpi="finance-revenue">Revenue vs. Expenses</span>
+              </div>
+            </article>
+            <article class="kpi-panel">
+              <header class="kpi-panel__header">
+                <h3>Volunteers</h3>
+              </header>
+              <div class="kpi-metric">
+                <span class="kpi-label">Hours This Month</span>
+                <span class="kpi-value" data-kpi="volunteers-hours-mtd">--</span>
+              </div>
+              <div class="kpi-metric">
+                <span class="kpi-label">Hours This Year</span>
+                <span class="kpi-value" data-kpi="volunteers-hours-ytd">--</span>
+              </div>
+              <div class="kpi-metric">
+                <span class="kpi-label">Upcoming Shifts</span>
+                <span class="kpi-value" data-kpi="volunteers-upcoming">--</span>
+              </div>
+              <div class="kpi-metric">
+                <span class="kpi-label">Active Volunteers</span>
+                <span class="kpi-value" data-kpi="volunteers-active">--</span>
+              </div>
+            </article>
+            <article class="kpi-panel">
+              <header class="kpi-panel__header">
+                <h3>Events</h3>
+              </header>
+              <div class="kpi-metric">
+                <span class="kpi-label">Upcoming Events</span>
+                <span class="kpi-value" data-kpi="events-upcoming">--</span>
+              </div>
+              <div class="kpi-metric">
+                <span class="kpi-label">Registrations</span>
+                <span class="kpi-value" data-kpi="events-registrations">--</span>
+              </div>
+              <div class="kpi-metric">
+                <span class="kpi-label">Next Event</span>
+                <span class="kpi-value" data-kpi="events-next-name">--</span>
+                <span class="kpi-subvalue" data-kpi="events-next-date">--</span>
+              </div>
+            </article>
+          </div>
+          <div class="kpi-footer">
+            <a class="button secondary" href="/html/fundraising.html">Open fundraising</a>
+            <a class="button secondary" href="/html/events.html">Upcoming events</a>
+            <a class="button secondary" href="/html/volunteers.html">Volunteer schedules</a>
+          </div>
+        </section>
+        <section class="card" data-auth-required style="display:none;">
+          <h2>Getting Started</h2>
+          <p>Use the sidebar to navigate between CRM, Fundraising, and Finance modules. Demo data is preloaded for exploration.</p>
+          <div style="margin-top: 16px; display: flex; gap: 12px; flex-wrap: wrap;">
+            <a class="button" href="/html/crm.html">Explore CRM</a>
+            <a class="button secondary" href="/html/fundraising.html">Review Donations</a>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="/js/nav.js"></script>
+    <script type="module" src="/js/auth.js"></script>
+    <script type="module" src="/js/dashboard.js"></script>
+  </body>
+</html>
+
+
+

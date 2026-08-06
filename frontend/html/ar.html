@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community ERP - Accounts Receivable</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="logo">Community ERP</div>
+        <nav></nav>
+      </aside>
+      <header class="topbar">
+        <div class="actions">
+          <button class="button secondary" id="toggle-theme">Toggle Theme</button>
+          <button class="button secondary" id="logout-button" style="display:none;">Logout</button>
+          <div class="badge" id="user-display">Guest</div>
+        </div>
+      </header>
+      <main class="content">
+        <h1 class="page-title">Accounts Receivable</h1>
+        <p class="page-subtitle">Create invoices, record payments, and view aging.</p>
+
+        <section class="card" data-auth-card style="display:none;">
+          <h2>Log In</h2>
+          <form id="login-form" class="login-form" style="display:flex;flex-direction:column;gap:12px;max-width:320px;">
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" value="admin@example.com" required />
+            </label>
+            <label>
+              <span>Password</span>
+              <input type="password" name="password" value="Passw0rd!" required />
+            </label>
+            <button class="button" type="submit">Sign In</button>
+            <p class="page-subtitle" id="login-error" style="display:none;color:var(--color-danger);">Invalid credentials</p>
+          </form>
+        </section>
+
+        <section class="card">
+          <h2>Create Invoice</h2>
+          <form id="invoice-form" class="invoice-form">
+            <label>
+              <span>Account</span>
+              <select name="accountId" id="invoice-account"></select>
+            </label>
+            <label>
+              <span>Contact</span>
+              <select name="contactId" id="invoice-contact"></select>
+            </label>
+            <label><span>Date</span><input type="date" name="invoiceDate" required /></label>
+            <label><span>Due</span><input type="date" name="dueDate" /></label>
+            <label style="grid-column:1/-1;"><span>Memo</span><input type="text" name="memo" /></label>
+            <div class="invoice-lines-grid">
+              <strong style="grid-column:1/-1;">Lines</strong>
+              <label><span>Description</span><input type="text" name="desc[]" /></label>
+              <label><span>Qty</span><input type="number" step="0.01" min="0" name="qty[]" value="1" /></label>
+              <label><span>Price</span><input type="number" step="0.01" min="0" name="price[]" /></label>
+              <label>
+                <span>Revenue Account</span>
+                <select name="revGl[]">
+                  <option value="">Select revenue account</option>
+                </select>
+              </label>
+            </div>
+            <div style="grid-column:1/-1;display:flex;gap:8px;">
+              <button class="button secondary" type="button" id="add-inv-line">Add Line</button>
+              <button class="button" type="submit">Create</button>
+            </div>
+          </form>
+          <p class="page-subtitle" id="invoice-form-msg" style="display:none;margin-top:8px;"></p>
+        </section>
+
+        <section class="card">
+          <header style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;align-items:end;">
+            <div>
+              <h2>Invoices</h2>
+              <p class="page-subtitle" id="invoices-summary">Loading invoices...</p>
+            </div>
+            <form id="invoice-filters" style="display:flex;gap:12px;align-items:end;flex-wrap:wrap;">
+              <label style="display:flex;flex-direction:column;font-size:0.75rem;gap:6px;">
+                <span>From</span>
+                <input type="date" name="from" />
+              </label>
+              <label style="display:flex;flex-direction:column;font-size:0.75rem;gap:6px;">
+                <span>To</span>
+                <input type="date" name="to" />
+              </label>
+              <label style="display:flex;flex-direction:column;font-size:0.75rem;gap:6px;min-width:200px;">
+                <span>Account</span>
+                <select name="accountId" id="filter-invoice-account"><option value="">All accounts</option></select>
+              </label>
+              <label style="display:flex;align-items:center;gap:8px;">
+                <input type="checkbox" id="filter-show-paid" name="showPaid" />
+                <span>Show Paid</span>
+              </label>
+              <button class="button secondary" type="submit">Apply</button>
+            </form>
+          </header>
+          <div class="table-wrapper" style="overflow:auto;margin-top:16px;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>No</th><th>Date</th><th>Account</th><th>Status</th><th style="text-align:right;">Total</th><th style="text-align:right;">Balance</th><th>Pay</th>
+                </tr>
+              </thead>
+              <tbody data-invoices></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>AR Aging</h2>
+          <div class="table-wrapper" style="overflow:auto;margin-top:16px;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Invoice</th><th>Due</th><th style="text-align:right;">0-30</th><th style="text-align:right;">31-60</th><th style="text-align:right;">61-90</th><th style="text-align:right;">90+</th>
+                </tr>
+              </thead>
+              <tbody data-aging></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="/js/nav.js"></script>
+    <script type="module" src="/js/auth.js"></script>
+    <script type="module" src="/js/ar.js"></script>
+  </body>
+  </html>

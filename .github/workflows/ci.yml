@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint startup and packaging path
+        run: npx eslint backend/app.js backend/controllers/setupController.js backend/routes/setupRoutes.js backend/services/setupService.js backend/db/accessCore.js backend/db/seed.js frontend/js/setup.js desktop/main.cjs scripts/smoke_first_run_setup.mjs
+
+      - name: First-run setup smoke
+        env:
+          JWT_SECRET: ci-jwt-secret
+          REFRESH_TOKEN_SECRET: ci-refresh-secret
+        run: node scripts/smoke_first_run_setup.mjs

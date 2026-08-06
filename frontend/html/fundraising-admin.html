@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community ERP - Fundraising Management</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="logo">Community ERP</div>
+        <nav><!-- nav.js populates items --></nav>
+      </aside>
+      <header class="topbar">
+        <div class="actions">
+          <button class="button secondary" id="toggle-theme">Toggle Theme</button>
+          <button class="button secondary" id="logout-button" style="display:none;">Logout</button>
+          <div class="badge" id="user-display">Guest</div>
+        </div>
+      </header>
+      <main class="content">
+        <h1 class="page-title">Fundraising Management</h1>
+        <p class="page-subtitle">Create and manage fundraising funds and campaigns.</p>
+
+        <section class="card" data-auth-card style="display:none;">
+          <h2>Log In</h2>
+          <form id="login-form" class="login-form" style="display:flex;flex-direction:column;gap:12px;max-width:320px;">
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" value="admin@example.com" required />
+            </label>
+            <label>
+              <span>Password</span>
+              <input type="password" name="password" value="Passw0rd!" required />
+            </label>
+            <button class="button" type="submit">Sign In</button>
+            <p class="page-subtitle" id="login-error" style="display:none;color:var(--color-danger);">Invalid credentials</p>
+          </form>
+        </section>
+
+        <section class="card">
+          <header style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+            <div>
+              <h2>Campaigns</h2>
+              <p class="page-subtitle" id="campaigns-summary">Loading campaigns...</p>
+            </div>
+          </header>
+          <form id="campaign-form" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;align-items:end;margin-top:16px;">
+            <label>
+              <span>Name</span>
+              <input type="text" name="name" required />
+            </label>
+            <label>
+              <span>Code</span>
+              <input type="text" name="code" maxlength="20" required />
+            </label>
+            <label>
+              <span>Goal Amount</span>
+              <input type="number" step="0.01" min="0" name="goalAmount" />
+            </label>
+            <label>
+              <span>Start Date</span>
+              <input type="date" name="startDate" />
+            </label>
+            <label>
+              <span>End Date</span>
+              <input type="date" name="endDate" />
+            </label>
+            <label style="grid-column:1 / -1;">
+              <span>Description</span>
+              <textarea name="description" rows="2" placeholder="Summary or theme of the campaign."></textarea>
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;">
+              <input type="checkbox" name="isActive" checked />
+              <span>Active</span>
+            </label>
+            <button class="button" type="submit">Add Campaign</button>
+          </form>
+          <p class="page-subtitle" id="campaign-form-message" style="display:none;margin-top:12px;"></p>
+          <form id="campaign-filter" style="border-top:1px solid var(--color-border);padding-top:16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:16px;">
+            <label style="display:flex;flex-direction:column;gap:6px;min-width:260px;">
+              <span>Filter Campaigns</span>
+              <input type="search" name="query" id="campaign-filter-query" placeholder="Name, code, status, or description" />
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;">
+              <input type="checkbox" id="campaign-filter-active" checked />
+              <span>Active</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;">
+              <input type="checkbox" id="campaign-filter-inactive" checked />
+              <span>Inactive</span>
+            </label>
+            <button class="button secondary" type="button" id="campaign-filter-clear">Clear</button>
+          </form>
+          <div class="table-wrapper" style="overflow:auto;margin-top:16px;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Code</th>
+                  <th>Status</th>
+                  <th>Goal</th>
+                  <th>Window</th>
+                  <th>Description</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody data-campaign-body>
+                <tr><td colspan="7">Loading campaigns...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="card">
+          <header style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+            <div>
+              <h2>Funds</h2>
+              <p class="page-subtitle" id="funds-summary">Loading funds...</p>
+            </div>
+          </header>
+          <form id="fund-form" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;align-items:end;margin-top:16px;">
+            <label>
+              <span>Name</span>
+              <input type="text" name="name" required />
+            </label>
+            <label>
+              <span>Fund Code</span>
+              <input type="text" name="code" id="fund-code" maxlength="30" required />
+            </label>
+            <label>
+              <span>Campaign</span>
+              <select name="campaignId" id="fund-campaign" required>
+                <option value="">Link to campaign</option>
+              </select>
+            </label>
+            <label>
+              <span>Restriction</span>
+              <select name="restriction">
+                <option value="Unrestricted">Unrestricted</option>
+                <option value="PermRestricted">Restricted</option>
+              </select>
+            </label>
+            <label>
+              <span>Revenue GL Account</span>
+              <select name="revenueGlAccountId" id="fund-revenue-gl">
+                <option value="">(Default contributions revenue)</option>
+              </select>
+            </label>
+            <label style="grid-column:1 / -1;">
+              <span>Description</span>
+              <textarea name="description" rows="2" placeholder="What does this fund support?"></textarea>
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;">
+              <input type="checkbox" name="isActive" checked />
+              <span>Active</span>
+            </label>
+            <button class="button" type="submit">Add Fund</button>
+          </form>
+          <p class="page-subtitle" id="fund-form-message" style="display:none;margin-top:12px;"></p>
+          <form id="fund-filter" style="border-top:1px solid var(--color-border);padding-top:16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:16px;">
+            <label style="display:flex;flex-direction:column;gap:6px;min-width:260px;">
+              <span>Filter Funds</span>
+              <input type="search" name="query" id="fund-filter-query" placeholder="Name, code, restriction, or description" />
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;">
+              <input type="checkbox" id="fund-filter-active" checked />
+              <span>Active</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;">
+              <input type="checkbox" id="fund-filter-inactive" checked />
+              <span>Inactive</span>
+            </label>
+            <button class="button secondary" type="button" id="fund-filter-clear">Clear</button>
+          </form>
+          <div class="table-wrapper" style="overflow:auto;margin-top:16px;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Code</th>
+                  <th>Restriction</th>
+                  <th>Description</th>
+                  <th>Active</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody data-fund-body>
+                <tr><td colspan="6">Loading funds...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="/js/nav.js"></script>
+    <script type="module" src="/js/auth.js"></script>
+    <script type="module" src="/js/fundraising-admin.js"></script>
+  </body>
+</html>

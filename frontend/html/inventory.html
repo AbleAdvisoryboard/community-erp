@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community ERP – Inventory & Assets</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="logo">Community ERP</div>
+        <nav><!-- nav.js populates items --></nav>
+      </aside>
+      <header class="topbar">
+        <div class="actions">
+          <button class="button secondary" id="toggle-theme">Toggle Theme</button>
+          <button class="button secondary" id="logout-button" style="display:none;">Logout</button>
+          <div class="badge" id="user-display">Guest</div>
+        </div>
+      </header>
+      <main class="content">
+        <h1 class="page-title">Inventory & Assets</h1>
+        <p class="page-subtitle">Track supplies, equipment, stock positions, and maintenance history.</p>
+
+        <section class="card" data-auth-card style="display:none;">
+          <h2>Log In</h2>
+          <form id="login-form" class="login-form" style="display:flex;flex-direction:column;gap:12px;max-width:320px;">
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" value="admin@example.com" required />
+            </label>
+            <label>
+              <span>Password</span>
+              <input type="password" name="password" value="Passw0rd!" required />
+            </label>
+            <button class="button" type="submit">Sign In</button>
+            <p class="page-subtitle" id="login-error" style="display:none;color:var(--color-danger);">Invalid credentials</p>
+          </form>
+        </section>
+
+        <section class="card">
+          <header style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+            <div>
+              <h2>Items</h2>
+              <p class="page-subtitle" id="item-count">Loading items…</p>
+            </div>
+            <form id="item-filter" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+              <input type="search" name="search" id="item-filter-search" placeholder="Name, type, or category" />
+              <select name="type" id="item-type-filter">
+                <option value="">All types</option>
+                <option value="Consumable">Consumables</option>
+                <option value="Equipment">Equipment</option>
+              </select>
+            </form>
+          </header>
+          <div class="table-wrapper" style="overflow:auto;margin-top:16px;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>SKU</th>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Category</th>
+                  <th>Location</th>
+                  <th>Bin</th>
+                  <th style="text-align:right;">On Hand</th>
+                  <th style="text-align:right;">Available</th>
+                  <th>Date Added</th>
+                  <th>Last Updated</th>
+                  <th>UOM</th>
+                  <th>Cost</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody data-items-body>
+                <tr><td colspan="13">Sign in to load inventory.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="card">
+          <header>
+            <h2>Add Item</h2>
+            <p class="page-subtitle">Create inventory items separately from stock quantity changes.</p>
+          </header>
+          <form id="item-form" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;align-items:end;margin-top:16px;">
+            <label>
+              <span>SKU</span>
+              <input type="text" name="sku" required />
+            </label>
+            <label>
+              <span>Name</span>
+              <input type="text" name="name" required />
+            </label>
+            <label>
+              <span>Type</span>
+              <span style="display:flex;gap:8px;align-items:center;">
+              <select name="type" id="item-type-select" required style="flex:1;">
+                <option value="Consumable">Consumable</option>
+                <option value="Equipment">Equipment</option>
+              </select>
+              <button class="button secondary" type="button" id="add-type-button">Add</button>
+              <button class="button danger" type="button" id="delete-type-button">Delete</button>
+              </span>
+            </label>
+            <div id="add-type-inline" style="display:none;grid-column:1 / -1;gap:8px;align-items:end;grid-template-columns:minmax(180px,320px) auto auto;">
+              <label>
+                <span>New Type</span>
+                <input type="text" id="new-type-name" />
+              </label>
+              <button class="button" type="button" id="save-type-button">Save Type</button>
+              <button class="button secondary" type="button" id="cancel-type-button">Cancel</button>
+            </div>
+            <label>
+              <span>Category</span>
+              <span style="display:flex;gap:8px;align-items:center;">
+              <select name="categoryId" id="item-category-select" style="flex:1;">
+                <option value="">Uncategorized</option>
+              </select>
+              <button class="button secondary" type="button" id="add-category-button">Add</button>
+              <button class="button danger" type="button" id="delete-category-button">Delete</button>
+              </span>
+            </label>
+            <div id="add-category-inline" style="display:none;grid-column:1 / -1;gap:8px;align-items:end;grid-template-columns:minmax(180px,320px) auto auto;">
+              <label>
+                <span>New Category</span>
+                <input type="text" id="new-category-name" />
+              </label>
+              <button class="button" type="button" id="save-category-button">Save Category</button>
+              <button class="button secondary" type="button" id="cancel-category-button">Cancel</button>
+            </div>
+            <label>
+              <span>Unit</span>
+              <input type="text" name="uom" placeholder="each" />
+            </label>
+            <label>
+              <span>Std Cost ($)</span>
+              <input type="number" step="0.01" name="standardCost" />
+            </label>
+            <label>
+              <span>Location</span>
+              <select name="initialLocation" id="initial-location-select" required>
+                <option value="">Select location</option>
+                <option value="__new">Add new location</option>
+              </select>
+              <input type="text" name="initialLocationNew" id="initial-location-new" placeholder="New location" style="display:none;margin-top:8px;" />
+            </label>
+            <label>
+              <span>Bin</span>
+              <select name="initialBin" id="initial-bin-select">
+                <option value="">No bin</option>
+                <option value="__new">Add new bin</option>
+              </select>
+              <input type="text" name="initialBinNew" id="initial-bin-new" placeholder="New bin" style="display:none;margin-top:8px;" />
+            </label>
+            <label>
+              <span>Starting Qty</span>
+              <input type="number" step="0.01" name="initialQty" value="0" required />
+            </label>
+            <label>
+              <span>Low Stock Alert Qty</span>
+              <input type="number" step="0.01" min="0" name="initialMinQty" value="0" />
+            </label>
+            <div style="grid-column:1 / -1;">
+              <button class="button" type="submit">Add Item</button>
+            </div>
+          </form>
+          <p class="page-subtitle" id="item-form-message" style="display:none;margin-top:12px;"></p>
+        </section>
+
+        <section class="card">
+          <header style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+            <div>
+              <h2>Stock Positions</h2>
+              <p class="page-subtitle" id="stock-summary">Loading stock…</p>
+            </div>
+            <form id="stock-adjust-form" style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;">
+              <label>
+                <span>Item</span>
+                <select name="itemId" id="stock-item-select">
+                  <option value="">Select item</option>
+                </select>
+              </label>
+              <label>
+                <span>Position</span>
+                <select name="stockPositionId" id="stock-position-select">
+                  <option value="new">New location/bin</option>
+                </select>
+              </label>
+              <label>
+                <span>Location</span>
+                <select name="location" id="stock-location-select" required>
+                  <option value="">Select location</option>
+                  <option value="__new">Add new location</option>
+                </select>
+                <input type="text" name="locationNew" id="stock-location-new" placeholder="New location" style="display:none;margin-top:8px;" />
+              </label>
+              <label>
+                <span>Bin</span>
+                <select name="bin" id="stock-bin-select">
+                  <option value="">No bin</option>
+                  <option value="__new">Add new bin</option>
+                </select>
+                <input type="text" name="binNew" id="stock-bin-new" placeholder="New bin" style="display:none;margin-top:8px;" />
+              </label>
+              <label>
+                <span>Adjustment</span>
+                <select name="adjustmentDirection" id="stock-adjustment-direction">
+                  <option value="add">Add stock</option>
+                  <option value="remove">Remove stock</option>
+                </select>
+              </label>
+              <label>
+                <span>Quantity</span>
+                <input type="number" step="0.01" min="0.01" name="qtyDelta" required />
+              </label>
+              <label>
+                <span>Reason</span>
+                <input type="text" name="reason" placeholder="Adjustment notes" />
+              </label>
+              <button class="button" type="submit">Apply Adjustment</button>
+            </form>
+            <p class="page-subtitle" id="stock-message" style="display:none;margin-top:12px;"></p>
+          </header>
+          <div class="table-wrapper" style="overflow:auto;margin-top:16px;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Location</th>
+                  <th>Bin</th>
+                  <th style="text-align:right;">On Hand</th>
+                  <th style="text-align:right;">Available</th>
+                  <th style="text-align:right;">Min</th>
+                  <th style="text-align:right;">Max</th>
+                </tr>
+              </thead>
+              <tbody data-stock-body>
+                <tr><td colspan="7">No stock loaded.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Low Stock Alerts</h2>
+          <div class="table-wrapper" style="overflow:auto;margin-top:16px;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Location</th>
+                  <th style="text-align:right;">On Hand</th>
+                  <th style="text-align:right;">Min</th>
+                  <th style="text-align:right;">Qty Needed</th>
+                </tr>
+              </thead>
+              <tbody data-low-stock-body>
+                <tr><td colspan="5">All stock levels are healthy.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="card">
+          <header>
+            <div>
+              <h2>Asset Registry</h2>
+              <p class="page-subtitle" id="asset-summary">Loading assets…</p>
+            </div>
+          </header>
+          <form id="asset-form" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;align-items:end;margin-top:16px;">
+            <label>
+              <span>Item</span>
+              <select name="itemId" id="asset-item-select" required>
+                <option value="">Select equipment item</option>
+              </select>
+            </label>
+            <label>
+              <span>Asset Tag</span>
+              <input type="text" name="assetTag" placeholder="TAG-0001" />
+            </label>
+            <label>
+              <span>Serial</span>
+              <input type="text" name="serialNumber" />
+            </label>
+            <label>
+              <span>Location</span>
+              <input type="text" name="location" />
+            </label>
+            <label>
+              <span>Custodian</span>
+              <select name="custodianContactId" id="asset-custodian-select">
+                <option value="">Unassigned</option>
+              </select>
+            </label>
+            <label>
+              <span>Status</span>
+              <select name="status" id="asset-status-select">
+                <option value="InUse">In Use</option>
+                <option value="InStock">Back in Stock</option>
+                <option value="InRepair">In Repair</option>
+                <option value="Disposed">Disposed</option>
+              </select>
+            </label>
+            <div>
+              <button class="button" type="submit">Add Asset</button>
+            </div>
+          </form>
+          <p class="page-subtitle" id="asset-message" style="display:none;margin-top:12px;"></p>
+          <form id="asset-filter" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:16px;">
+            <label>
+              <span>Status Filter</span>
+              <select name="status" id="asset-status-filter">
+                <option value="InUse">In Use</option>
+                <option value="">All assets</option>
+                <option value="InStock">Back in Stock</option>
+                <option value="InRepair">In Repair</option>
+                <option value="Disposed">Disposed</option>
+              </select>
+            </label>
+          </form>
+          <div class="table-wrapper" style="overflow:auto;margin-top:16px;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Asset Tag</th>
+                  <th>Item</th>
+                  <th>Location</th>
+                  <th>Status</th>
+                  <th>Custodian</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody data-assets-body>
+                <tr><td colspan="6">No assets loaded.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="/js/nav.js"></script>
+    <script type="module" src="/js/auth.js"></script>
+    <script type="module" src="/js/inventory.js"></script>
+  </body>
+</html>
+

@@ -1,0 +1,11 @@
+node_modules/
+uploads/
+data/
+**/dist/
+release/
+frontend/vendor/
+frontend/js/meetkit/
+tmp.test.js
+inspect_*.mjs
+query5100.mjs
+list_tables.mjs

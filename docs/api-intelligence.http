@@ -1,0 +1,95 @@
+### List org insights
+GET http://localhost:3000/api/v1/intel/org-insights?status=Active
+Content-Type: application/json
+
+### Upsert org insight
+POST http://localhost:3000/api/v1/intel/org-insights
+Content-Type: application/json
+X-CSRF-Token: {{csrfToken}}
+Cookie: {{sessionCookie}}
+{
+  "account_id": 1,
+  "rating": "Strong",
+  "status": "Active",
+  "tags": ["STEM", "After-School"],
+  "notes": "Key partner; overlap with ALN-84.215"
+}
+
+### List people ratings
+GET http://localhost:3000/api/v1/intel/people-ratings
+Content-Type: application/json
+
+### Upsert people rating
+POST http://localhost:3000/api/v1/intel/people-ratings
+Content-Type: application/json
+X-CSRF-Token: {{csrfToken}}
+Cookie: {{sessionCookie}}
+{
+  "contact_id": 1,
+  "score": 80,
+  "affinity": "Champion",
+  "influence_level": "High",
+  "notes": "Met with program officer"
+}
+
+### Funding sources
+GET http://localhost:3000/api/v1/intel/funding/sources
+Content-Type: application/json
+
+POST http://localhost:3000/api/v1/intel/funding/sources
+Content-Type: application/json
+X-CSRF-Token: {{csrfToken}}
+Cookie: {{sessionCookie}}
+{
+  "name": "US Dept of Labor",
+  "category": "Federal",
+  "region": "US",
+  "website": "https://www.dol.gov"
+}
+
+### Grants catalog
+GET http://localhost:3000/api/v1/intel/grants/catalog
+Content-Type: application/json
+
+POST http://localhost:3000/api/v1/intel/grants/catalog
+Content-Type: application/json
+X-CSRF-Token: {{csrfToken}}
+Cookie: {{sessionCookie}}
+{
+  "funding_source_id": 1,
+  "code": "DOL-ETA-25",
+  "title": "WIOA Youth",
+  "focus_areas": ["Workforce", "Youth"],
+  "deadline_at": "2025-12-01"
+}
+
+### Map org to grant
+POST http://localhost:3000/api/v1/intel/org-grants
+Content-Type: application/json
+X-CSRF-Token: {{csrfToken}}
+Cookie: {{sessionCookie}}
+{
+  "account_id": 1,
+  "grant_id": 1,
+  "stage": "Applied",
+  "amount_requested": 40000
+}
+
+### Overlaps view
+GET http://localhost:3000/api/v1/intel/grants/overlaps
+Content-Type: application/json
+
+### Watchlist
+GET http://localhost:3000/api/v1/intel/watchlist
+Content-Type: application/json
+
+POST http://localhost:3000/api/v1/intel/watchlist
+Content-Type: application/json
+X-CSRF-Token: {{csrfToken}}
+Cookie: {{sessionCookie}}
+{
+  "entity_type": "Org",
+  "entity_id": 1,
+  "reason": "Competes on same DOE grant",
+  "priority": "Medium"
+}

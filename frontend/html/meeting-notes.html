@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meeting Notes</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/meetkit.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" data-component="sidebar">
+        <div class="logo">Community ERP</div>
+        <nav></nav>
+      </aside>
+      <header class="topbar">
+        <div class="actions">
+          <button class="button secondary" id="toggle-theme">Toggle Theme</button>
+          <button class="button secondary" id="logout-button" style="display:none;">Logout</button>
+          <div class="badge" id="user-display">Guest</div>
+        </div>
+      </header>
+      <main class="content">
+        <header class="page-header">
+          <h1>Meeting Notes</h1>
+          <p class="page-subtitle">Meetings, whiteboard, and connections â€” all in one place.</p>
+        </header>
+        <div class="editor-shell">
+          <div id="meetkit-root" class="meetkit-root" data-default-tab="graph">
+            <div class="meetkit-tabs">
+              <button data-tab="meetings" aria-label="Meetings tab">Meetings</button>
+              <button data-tab="whiteboard" aria-label="Whiteboard tab">Whiteboard</button>
+              <button data-tab="graph" class="active" aria-label="Connections graph tab">Connections</button>
+            </div>
+            <div id="meetkit-view"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script type="module" src="/js/nav.js"></script>
+    <script type="module" src="/js/layout.js"></script>
+    <script type="module" src="/js/auth.js"></script>
+    <script defer src="/js/meetkit/storage.js"></script>
+    <script defer src="/js/meetkit/parser.js"></script>
+    <script defer src="/js/meetkit/sync.js"></script>
+    <script defer src="/js/meetkit/meetings.js"></script>
+    <script defer src="/js/meetkit/whiteboard.js"></script>
+    <script defer src="/js/meetkit/graph.js"></script>
+    <script defer src="/js/meetkit/core.js"></script>
+  </body>
+  </html>

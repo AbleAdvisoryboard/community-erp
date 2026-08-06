@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community ERP – CRM</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="logo">Community ERP</div>
+        <nav><!-- nav.js populates items --></nav>
+      </aside>
+      <header class="topbar">
+        <div class="actions">
+          <button class="button secondary" id="toggle-theme">Toggle Theme</button>
+          <button class="button secondary" id="logout-button" style="display:none;">Logout</button>
+          <div class="badge" id="user-display">Guest</div>
+        </div>
+      </header>
+      <main class="content">
+        <h1 class="page-title">Constituent Relationship Management</h1>
+        <p class="page-subtitle">Manage affiliations, contacts, and engagement history.</p>
+
+        <section class="card" data-auth-card>
+          <h2>Log In</h2>
+          <form id="login-form" class="login-form" style="display:flex;flex-direction:column;gap:12px;max-width:320px;">
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" value="admin@example.com" required />
+            </label>
+            <label>
+              <span>Password</span>
+              <input type="password" name="password" value="Passw0rd!" required />
+            </label>
+            <button class="button" type="submit">Sign In</button>
+            <p class="page-subtitle" id="login-error" style="display:none;color:var(--color-danger);">Invalid credentials</p>
+          </form>
+        </section>
+
+        <section class="card">
+          <h2>Add Contact</h2>
+          <form id="contact-form" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;align-items:end;">
+            <label>
+              <span>Affiliation</span>
+              <div style="display:flex; gap:8px; align-items:center;">
+                <select name="accountId" id="contact-account" style="flex:1;">
+                  <option value="">(None)</option>
+                </select>
+                <button type="button" class="button secondary" id="affiliation-new-btn" title="Create new affiliation">New</button>
+                <button type="button" class="button danger" id="affiliation-delete-btn" title="Remove selected affiliation">Delete</button>
+              </div>
+            </label>
+            <label>
+              <span>First Name</span>
+              <input type="text" name="firstName" required />
+            </label>
+            <label>
+              <span>Last Name</span>
+              <input type="text" name="lastName" required />
+            </label>
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" />
+            </label>
+            <label>
+              <span>Phone</span>
+              <input type="text" name="phone" />
+            </label>
+            <label>
+              <span>Mobile</span>
+              <input type="text" name="mobile" />
+            </label>
+            <label>
+              <span>Tags</span>
+              <div style="display:flex; gap:8px; align-items:center;">
+                <select id="contact-tags" name="tags" multiple size="3" style="flex:1; min-height: 38px;"></select>
+                <button type="button" class="button secondary" id="tag-new-btn" title="Create new tag">New</button>
+                <button type="button" class="button danger" id="tag-delete-btn" title="Remove selected tag">Delete</button>
+              </div>
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;">
+              <input type="checkbox" name="isPrimary" />
+              <span>Primary contact</span>
+            </label>
+            <button class="button" type="submit">Create Contact</button>
+          </form>
+          <p class="page-subtitle" id="contact-form-message" style="display:none;margin-top:12px;"></p>
+        </section>
+
+        <section class="card">
+          <header style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+            <div>
+              <h2>Contacts</h2>
+              <p class="page-subtitle" id="contacts-count">Loading contacts…</p>
+            </div>
+            <form id="contacts-filter" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+              <span class="page-subtitle" style="font-weight:600;">Search Contacts</span>
+              <input type="search" name="query" placeholder="Search name" />
+              <button class="button secondary" type="button" id="contacts-clear">Clear</button>
+              <select id="filter-account" name="accountId">
+                <option value="">All affiliations</option>
+              </select>
+              <select id="filter-tag" name="tag">
+                <option value="">All tags</option>
+              </select>
+              <select id="filter-primary" name="primary">
+                <option value="">Any primary</option>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+              </select>
+              <button class="button secondary" type="submit">Filter</button>
+            </form>
+          </header>
+          <div class="searchbar" style="margin-top:12px;">
+            <input id="contact-search" type="search" placeholder="Search contacts (name/email)" autocomplete="off" />
+            <div id="contact-typeahead" class="typeahead" hidden></div>
+          </div>
+          <div class="table-wrapper" style="overflow:auto;margin-top:16px;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Affiliation</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Tags</th>
+                  <th>Primary</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody data-contacts-body>
+                <tr><td colspan="7">Sign in to load contacts.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="/js/nav.js"></script>
+    <script type="module" src="/js/auth.js"></script>
+    <script type="module" src="/js/ui.js"></script>
+    <script type="module" src="/js/crm.js"></script>
+    
+    <!-- Quick-create Affiliation Modal -->
+    <div id="affiliation-modal" aria-hidden="true" style="display:none;position:fixed;inset:0;z-index:1000;">
+      <div data-affiliation-backdrop style="position:absolute;inset:0;background:rgba(0,0,0,0.35);"></div>
+      <div role="dialog" aria-modal="true" aria-labelledby="affiliation-modal-title" style="position:relative;max-width:560px;margin:10vh auto;background:var(--color-surface,#fff);color:var(--color-text,#222);border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,0.2);">
+        <header style="padding:16px 20px;border-bottom:1px solid var(--color-border,#e5e7eb);display:flex;justify-content:space-between;align-items:center;">
+          <h3 id="affiliation-modal-title" style="margin:0;">New Affiliation</h3>
+          <button type="button" class="button secondary" id="affiliation-cancel">Close</button>
+        </header>
+        <form id="affiliation-form" style="padding:16px 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;">
+          <label>
+            <span>Type</span>
+            <select name="type" id="affiliation-type">
+              <option value="Organization" selected>Organization</option>
+              <option value="Household">Household</option>
+            </select>
+          </label>
+          <label>
+            <span>Name</span>
+            <input type="text" name="name" id="affiliation-name" required />
+          </label>
+          <label>
+            <span>Display Name (optional)</span>
+            <input type="text" name="displayName" id="affiliation-displayName" />
+          </label>
+          <div style="grid-column:1/-1;display:flex;gap:8px;justify-content:flex-end;">
+            <button type="button" class="button secondary" id="affiliation-cancel-2">Cancel</button>
+            <button type="submit" class="button" id="affiliation-submit">Create</button>
+          </div>
+          <p id="affiliation-error" class="page-subtitle" style="display:none;color:var(--color-danger);"></p>
+        </form>
+      </div>
+    </div>
+
+    <!-- Quick-create Tag Modal -->
+    <div id="tag-modal" aria-hidden="true" style="display:none;position:fixed;inset:0;z-index:1000;">
+      <div data-tag-backdrop style="position:absolute;inset:0;background:rgba(0,0,0,0.35);"></div>
+      <div role="dialog" aria-modal="true" aria-labelledby="tag-modal-title" style="position:relative;max-width:420px;margin:15vh auto;background:var(--color-surface,#fff);color:var(--color-text,#222);border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,0.2);">
+        <header style="padding:16px 20px;border-bottom:1px solid var(--color-border,#e5e7eb);display:flex;justify-content:space-between;align-items:center;">
+          <h3 id="tag-modal-title" style="margin:0;">New Tag</h3>
+          <button type="button" class="button secondary" id="tag-cancel">Close</button>
+        </header>
+        <form id="tag-form" style="padding:16px 20px;display:grid;gap:12px;">
+          <label>
+            <span>Name</span>
+            <input type="text" id="tag-name" name="name" required />
+          </label>
+          <div style="display:flex;gap:8px;justify-content:flex-end;">
+            <button type="button" class="button secondary" id="tag-cancel-2">Cancel</button>
+            <button type="submit" class="button" id="tag-submit">Create</button>
+          </div>
+          <p id="tag-error" class="page-subtitle" style="display:none;color:var(--color-danger);"></p>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
+
+

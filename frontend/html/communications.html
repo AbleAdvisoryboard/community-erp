@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community ERP - Communications</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="logo">Community ERP</div>
+        <nav><!-- nav.js populates items --></nav>
+      </aside>
+      <header class="topbar">
+        <div class="actions">
+          <button class="button secondary" id="toggle-theme">Toggle Theme</button>
+          <button class="button secondary" id="logout-button" style="display:none;">Logout</button>
+          <div class="badge" id="user-display">Guest</div>
+        </div>
+      </header>
+      <main class="content">
+        <h1 class="page-title">Communications Center</h1>
+        <p class="page-subtitle">Launch email and SMS outreach with reusable templates and delivery logs.</p>
+
+        <section class="card" data-auth-card style="display:none;">
+          <h2>Log In</h2>
+          <form id="login-form" class="login-form" style="display:flex;flex-direction:column;gap:12px;max-width:320px;">
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" value="admin@example.com" required />
+            </label>
+            <label>
+              <span>Password</span>
+              <input type="password" name="password" value="Passw0rd!" required />
+            </label>
+            <button class="button" type="submit">Sign In</button>
+            <p class="page-subtitle" id="login-error" style="display:none;color:var(--color-danger);">Invalid credentials</p>
+          </form>
+        </section>
+
+        <section class="card">
+          <h2>Templates</h2>
+          <div class="table-wrapper" style="max-height:248px;overflow:auto;margin-top:12px;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Channel</th>
+                  <th>Status</th>
+                  <th style="text-align:center;">Actions</th>
+                </tr>
+              </thead>
+              <tbody data-template-body>
+                <tr><td colspan="4">No templates yet.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="border-top:3px solid var(--color-border);margin:28px 0 20px;"></div>
+          <h3 style="margin:0 0 14px;">Create Template</h3>
+          <form id="template-form" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;align-items:end;">
+            <label>
+              <span>Name</span>
+              <input type="text" name="name" required />
+            </label>
+            <label>
+              <span>Channel</span>
+              <select name="channel">
+                <option value="Email">Email</option>
+                <option value="SMS">SMS</option>
+              </select>
+            </label>
+            <label>
+              <span>Insert Variable</span>
+              <select id="template-variable-insert">
+                <option value="">Select variable</option>
+                <option value="firstName">First Name - {{firstName}}</option>
+                <option value="lastName">Last Name - {{lastName}}</option>
+                <option value="email">Email - {{email}}</option>
+                <option value="phone">Phone - {{phone}}</option>
+                <option value="mobile">Mobile - {{mobile}}</option>
+              </select>
+            </label>
+            <label style="grid-column:1 / -1;width:100%;">
+              <span>Subject</span>
+              <input type="text" name="subject" id="template-subject" style="width:100%;box-sizing:border-box;" />
+            </label>
+            <label style="grid-column:1 / -1;width:100%;">
+              <span>Body (Text)</span>
+              <textarea name="bodyText" id="template-body-text" rows="8" style="width:100%;box-sizing:border-box;overflow-y:auto;resize:vertical;"></textarea>
+            </label>
+            <button class="button secondary" type="submit" style="justify-self:flex-start;">Save Template</button>
+          </form>
+          <p class="page-subtitle" id="template-form-message" style="display:none;margin-top:8px;"></p>
+        </section>
+
+        <section class="card">
+          <h2>Compose Message</h2>
+          <form id="message-form" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;align-items:start;">
+            <label>
+              <span>Template</span>
+              <select name="templateId" id="message-template">
+                <option value="">(Optional) Select template</option>
+              </select>
+            </label>
+            <label>
+              <span>Channel</span>
+              <select name="channel" id="message-channel">
+                <option value="Email">Email</option>
+                <option value="SMS">SMS</option>
+              </select>
+            </label>
+            <label style="grid-column:1 / -1;width:100%;">
+              <span>Subject</span>
+              <input type="text" name="subject" id="message-subject" style="width:100%;box-sizing:border-box;" />
+            </label>
+            <div class="template-preview" id="template-preview" style="display:none;">
+              <div class="template-preview__meta">
+                <strong id="template-preview-name"></strong>
+                <span id="template-preview-channel"></span>
+              </div>
+              <div class="template-preview__subject" id="template-preview-subject"></div>
+              <pre id="template-preview-body"></pre>
+            </div>
+            <label style="grid-column:1 / -1;width:100%;">
+              <span>Body</span>
+              <textarea name="bodyText" id="message-body" rows="8" style="width:100%;box-sizing:border-box;overflow-y:auto;resize:vertical;" placeholder="Use merge fields like {{firstName}}"></textarea>
+            </label>
+            <label style="grid-column:1 / -1;">
+              <span>Recipients</span>
+              <select name="contactIds" id="message-contacts" multiple size="6" style="width:100%;"></select>
+            </label>
+            <button class="button" type="submit" style="justify-self:flex-start;">Create Message</button>
+          </form>
+          <p class="page-subtitle" id="message-form-message" style="display:none;margin-top:12px;"></p>
+        </section>
+
+        <section class="card">
+          <header style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+            <div>
+              <h2>Messages</h2>
+              <p class="page-subtitle" id="messages-count">Loading messages.</p>
+            </div>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;">
+              <select id="message-status-filter">
+                <option value="">All statuses</option>
+                <option value="Draft">Draft</option>
+                <option value="Sent">Sent</option>
+                <option value="Failed">Failed</option>
+              </select>
+              <select id="message-channel-filter">
+                <option value="">All channels</option>
+                <option value="Email">Email</option>
+                <option value="SMS">SMS</option>
+              </select>
+            </div>
+          </header>
+          <div class="table-wrapper" style="overflow:auto;margin-top:16px;max-height:260px;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Subject</th>
+                  <th>Channel</th>
+                  <th>Status</th>
+                  <th>Audience</th>
+                  <th>Sent</th>
+                  <th style="text-align:center;">Actions</th>
+                </tr>
+              </thead>
+              <tbody data-message-body>
+                <tr><td colspan="6">No messages queued.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="card" id="delivery-card" style="display:none;">
+          <h2>Delivery Log</h2>
+          <p class="page-subtitle" id="delivery-summary"></p>
+          <div class="table-wrapper" style="max-height:240px;overflow:auto;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Contact</th>
+                  <th>Channel</th>
+                  <th>Address</th>
+                  <th>Status</th>
+                  <th>Sent</th>
+                </tr>
+              </thead>
+              <tbody data-delivery-body>
+                <tr><td colspan="5">Select a sent message to view deliveries.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Communications Settings</h2>
+          <form id="communications-settings-form" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;align-items:end;">
+            <label>
+              <span>Email Provider</span>
+              <select name="emailProvider" id="settings-email-provider">
+                <option value="mock">Inactive / Testing</option>
+                <option value="sendgrid">SendGrid</option>
+              </select>
+            </label>
+            <label>
+              <span>SendGrid API Key</span>
+              <input type="password" name="sendgridApiKey" id="settings-sendgrid-key" autocomplete="new-password" placeholder="Leave blank to keep saved key" />
+            </label>
+            <label>
+              <span>Email From</span>
+              <input type="email" name="emailFrom" id="settings-email-from" placeholder="verified@example.org" />
+            </label>
+            <label>
+              <span>Email Reply To</span>
+              <input type="email" name="emailReplyTo" id="settings-email-reply-to" placeholder="reply@example.org" />
+            </label>
+            <label>
+              <span>SMS Provider</span>
+              <select name="smsProvider" id="settings-sms-provider">
+                <option value="mock">Inactive / Testing</option>
+                <option value="twilio">Twilio</option>
+              </select>
+            </label>
+            <label>
+              <span>Twilio Account SID</span>
+              <input type="password" name="twilioAccountSid" id="settings-twilio-sid" autocomplete="new-password" placeholder="Leave blank to keep saved SID" />
+            </label>
+            <label>
+              <span>Twilio Auth Token</span>
+              <input type="password" name="twilioAuthToken" id="settings-twilio-token" autocomplete="new-password" placeholder="Leave blank to keep saved token" />
+            </label>
+            <label>
+              <span>Twilio From</span>
+              <input type="tel" name="twilioFrom" id="settings-twilio-from" placeholder="+15551234567" />
+            </label>
+            <button class="button" type="submit" style="justify-self:flex-start;">Save Settings</button>
+          </form>
+          <p class="page-subtitle" id="communications-settings-status" style="display:none;margin-top:12px;"></p>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="/js/nav.js"></script>
+    <script type="module" src="/js/auth.js"></script>
+    <script type="module" src="/js/communications.js"></script>
+  </body>
+</html>

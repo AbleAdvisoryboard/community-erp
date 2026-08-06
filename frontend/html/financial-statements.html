@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community ERP - Financial Statements</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="logo">Community ERP</div>
+        <nav></nav>
+      </aside>
+      <header class="topbar">
+        <div class="actions">
+          <button class="button secondary" id="toggle-theme">Toggle Theme</button>
+          <button class="button secondary" id="logout-button" style="display:none;">Logout</button>
+          <div class="badge" id="user-display">Guest</div>
+        </div>
+      </header>
+      <main class="content">
+        <h1 class="page-title">Financial Statements</h1>
+        <p class="page-subtitle">Unaudited summary for internal reporting.</p>
+
+        
+
+        
+
+        <section class="card" id="nonprofit-statement-card">
+          <h2 style="text-align:center;margin-top:4px;">Statement of Activities</h2>
+          <h2>Revenues of Support (Unaudited YTD)</h2>
+          <div style="display:grid;grid-template-columns:1fr;gap:8px;max-width:720px;margin:0 auto;">
+            <table class="table compact">
+              <tbody>
+                <tr><th colspan="2">Restricted Contributions and Grants (non Gov)</th></tr>
+                <tr><td>RESTRICTED CONTRIBUTIONS - ENDOWMENTS</td><td style="text-align:right;"><span data-nps-restr-endow>—</span></td></tr>
+                <tr><td>CONTRIBUTIONS - FOUNDATIONS - RESTRICTED</td><td style="text-align:right;"><span data-nps-restr-found>—</span></td></tr>
+                <tr><td>RESTRICTED OTHER</td><td style="text-align:right;"><span data-nps-restr-other>—</span></td></tr>
+                <tr><td colspan="2"></td></tr>
+                <tr><th colspan="2">Unrestricted Contributions</th></tr>
+                <tr><td>CONTRIBUTIONS - INDIVIDUALS</td><td style="text-align:right;"><span data-nps-unres-indiv>—</span></td></tr>
+                <tr><td>CONTRIBUTIONS - FOUNDATIONS / TRUSTS</td><td style="text-align:right;"><span data-nps-unres-found>—</span></td></tr>
+                <tr><td>CONTRIBUTIONS - ORGANIZATIONS</td><td style="text-align:right;"><span data-nps-unres-org>—</span></td></tr>
+                <tr><td>UNRESTRICTED OTHER</td><td style="text-align:right;"><span data-nps-other-public>—</span></td></tr>
+                <tr class="totals"><th>Total Public Support</th><th style="text-align:right;"><span data-nps-total-public>—</span></th></tr>
+                <tr><td colspan="2"></td></tr>
+                <tr><th colspan="2">Government Support</th></tr>
+                <tr><td>Federal Grants</td><td style="text-align:right;"><span data-nps-gov-grants>—</span></td></tr>
+                <tr><td>State Grants</td><td style="text-align:right;"><span data-nps-gov-grants-other>—</span></td></tr>
+                <tr class="totals"><th>Total Government Support</th><th style="text-align:right;"><span data-nps-total-gov>—</span></th></tr>
+                <tr><td colspan="2"></td></tr>
+                <tr><th colspan="2">Program Revenue</th></tr>
+                <tr><td>Program 1</td><td style="text-align:right;"><span data-nps-prog1>—</span></td></tr>
+                <tr><td>Program 2</td><td style="text-align:right;"><span data-nps-prog2>—</span></td></tr>
+                <tr><td>Program 3</td><td style="text-align:right;"><span data-nps-prog3>—</span></td></tr>
+                <tr><td colspan="2"></td></tr>
+                <tr><th colspan="2">Other Support</th></tr>
+                <tr><td>Special Events</td><td style="text-align:right;"><span data-nps-events>—</span></td></tr>
+                <tr><td>Legacies and Bequests</td><td style="text-align:right;"><span data-nps-legacies>—</span></td></tr>
+                <tr><td>Fees for services</td><td style="text-align:right;"><span data-nps-fees-services>—</span></td></tr>
+                <tr><td>Inventory revenue</td><td style="text-align:right;"><span data-nps-inventory-revenue>—</span></td></tr>
+                <tr><td>Investment income, net</td><td style="text-align:right;"><span data-nps-invest-income>—</span></td></tr>
+                <tr><td>Other income</td><td style="text-align:right;"><span data-nps-other-income>—</span></td></tr>
+                <tr class="totals"><th>Total Other Support</th><th style="text-align:right;"><span data-nps-total-other>—</span></th></tr>
+                <tr class="totals"><th>Total Support</th><th style="text-align:right;"><span data-nps-total-support>—</span></th></tr>
+                <tr class="totals"><th>Total revenues and other support</th><th style="text-align:right;"><span data-nps-total-revenue-support>—</span></th></tr>
+              </tbody>
+            </table>
+          </div>
+          <h2 style="margin-top:16px;">Operation Expenses (Unaudited YTD)</h2>
+          <div style="display:grid;grid-template-columns:1fr;gap:8px;max-width:720px;margin:0 auto;">
+            <table class="table compact">
+              <tbody>
+                <tr><th colspan="2">Operational Supporting Services</th></tr>
+                <tr><td>Salaries and wages</td><td style="text-align:right;"><span data-nps-exp-ops-salary>—</span></td></tr>
+                <tr><td>Employee benefits</td><td style="text-align:right;"><span data-nps-exp-ops-benefits>—</span></td></tr>
+                <tr class="totals"><th>Total salaries and benefits</th><th style="text-align:right;"><span data-nps-exp-ops-personnel>—</span></th></tr>
+                <tr><td>Travel</td><td style="text-align:right;"><span data-nps-exp-ops-travel>—</span></td></tr>
+                <tr><td>Maintenance</td><td style="text-align:right;"><span data-nps-exp-ops-maintenance>—</span></td></tr>
+                <tr><td>Equipment maintenance and rental</td><td style="text-align:right;"><span data-nps-exp-ops-eq-maint-rental>—</span></td></tr>
+                <tr><td>Supplies and materials</td><td style="text-align:right;"><span data-nps-exp-ops-supplies>—</span></td></tr>
+                <tr><td>Contractual services</td><td style="text-align:right;"><span data-nps-exp-ops-contracts>—</span></td></tr>
+                <tr><td>Financial and material assistance</td><td style="text-align:right;"><span data-nps-exp-ops-assistance>—</span></td></tr>
+                <tr><td>Depreciation and amortization</td><td style="text-align:right;"><span data-nps-exp-ops-depr>—</span></td></tr>
+                <tr><td>Rent</td><td style="text-align:right;"><span data-nps-exp-ops-rent>—</span></td></tr>
+                <tr><td>Other Operational Expenses</td><td style="text-align:right;"><span data-nps-exp-ops-other>—</span></td></tr>
+                <tr><td colspan="2"></td></tr>
+                <tr><th colspan="2">Program services</th></tr>
+                <tr><td>Program 1 (Expenses, cost)</td><td style="text-align:right;"><span data-nps-exp-prog1>—</span></td></tr>
+                <tr><td>Program 2 (Expenses, cost)</td><td style="text-align:right;"><span data-nps-exp-prog2>—</span></td></tr>
+                <tr><td>Program 3 (Expenses, cost)</td><td style="text-align:right;"><span data-nps-exp-prog3>—</span></td></tr>
+                <tr class="totals"><th>Total expenses</th><th style="text-align:right;"><span data-nps-exp-total>—</span></th></tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr;gap:8px;max-width:720px;margin:0 auto;">
+            <table class="table compact">
+              <tbody>
+                <tr><th>Change in net assets from operations</th><th style="text-align:right;"><span data-nps-change-ops>—</span></th></tr>
+                <tr><td>Realized gains on investments, net</td><td style="text-align:right;"><span data-nps-realized-gains>—</span></td></tr>
+                <tr><th>Change in net assets</th><th style="text-align:right;"><span data-nps-change>—</span></th></tr>
+                <tr><td>Net assets at beginning of year</td><td style="text-align:right;"><span data-nps-na-begin>—</span></td></tr>
+                <tr><td>Net assets YTD</td><td style="text-align:right;"><span data-nps-na-ytd>—</span></td></tr>
+                <tr><td>Net assets trailing 12 months (to date)</td><td style="text-align:right;"><span data-nps-na-ttm>—</span></td></tr>
+                <tr><th>Net assets end of year</th><th style="text-align:right;"><span data-nps-na-end>—</span></th></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="card" id="balance-sheet-card">
+          <h2 style="text-align:center;">Statement of Financial Position</h2>
+          <div class="page-subtitle">As of <span data-bs2-asof>—</span></div>
+          <div style="display:grid;grid-template-columns:1fr;gap:8px;max-width:820px;margin:0 auto;">
+            <table class="table compact">
+              <tbody>
+                <tr><th colspan="2">Current Assets</th></tr>
+                <tr><td>Cash, cash equivalents and restricted cash</td><td style="text-align:right;"><span data-bs2-ca-cash>—</span></td></tr>
+                <tr><td>Investments</td><td style="text-align:right;"><span data-bs2-ca-investments>—</span></td></tr>
+                <tr><td>Trade receivables</td><td style="text-align:right;"><span data-bs2-ca-rcv>—</span></td></tr>
+                <tr><td>Current regulatory assets</td><td style="text-align:right;"><span data-bs2-ca-reg>—</span></td></tr>
+                <tr><td>Inventories</td><td style="text-align:right;"><span data-bs2-ca-inv>—</span></td></tr>
+                <tr><td>Prepayments and other current assets</td><td style="text-align:right;"><span data-bs2-ca-pre>-</span></td></tr>
+                <tr><td>Current assets of discontinued operations</td><td style="text-align:right;"><span data-bs2-ca-disc>-</span></td></tr>
+                <tr><td>Other current assets</td><td style="text-align:right;"><span data-bs2-ca-other>-</span></td></tr>
+                <tr class="totals"><th>Total current assets</th><th style="text-align:right;"><span data-bs2-ca-total>—</span></th></tr>
+
+                <tr><th colspan="2">Noncurrent Assets</th></tr>
+                <tr><td>Property, plant and equipment</td><td style="text-align:right;"><span data-bs2-nc-ppe>—</span></td></tr>
+                <tr><td>Less accumulated depreciation and amortization</td><td style="text-align:right;"><span data-bs2-nc-accum>—</span></td></tr>
+                <tr><td>Goodwill</td><td style="text-align:right;"><span data-bs2-nc-goodwill>—</span></td></tr>
+                <tr><td>Regulatory assets</td><td style="text-align:right;"><span data-bs2-nc-reg>—</span></td></tr>
+                <tr><td>Investments (noncurrent)</td><td style="text-align:right;"><span data-bs2-nc-inv>—</span></td></tr>
+                <tr><td>Right of use assets – operating leases</td><td style="text-align:right;"><span data-bs2-nc-rou-operating>—</span></td></tr>
+                <tr><td>Assets held for sale, net</td><td style="text-align:right;"><span data-bs2-nc-heldforsale>—</span></td></tr>
+                <tr><td>Prepaid assets</td><td style="text-align:right;"><span data-bs2-nc-prepaid>—</span></td></tr>
+                <tr><td>Contribution receivable (noncurrent)</td><td style="text-align:right;"><span data-bs2-nc-contrib-rcv>—</span></td></tr>
+                <tr><td>Other (Noncurrent assets)</td><td style="text-align:right;"><span data-bs2-nc-other>—</span></td></tr>
+                <tr class="totals"><th>Total noncurrent assets</th><th style="text-align:right;"><span data-bs2-nc-total>—</span></th></tr>
+
+                <tr class="totals"><th>Total assets</th><th style="text-align:right;"><span data-bs2-total-assets>—</span></th></tr>
+
+                <tr><th colspan="2">Current liabilities</th></tr>
+                <tr><td>Long-term debt due within one year</td><td style="text-align:right;"><span data-bs2-cl-debtcur>—</span></td></tr>
+                <tr><td>Accounts payable</td><td style="text-align:right;"><span data-bs2-cl-ap>—</span></td></tr>
+                <tr><td>Regulatory liabilities due within one year</td><td style="text-align:right;"><span data-bs2-cl-reg>—</span></td></tr>
+                <tr><td>Taxes payable</td><td style="text-align:right;"><span data-bs2-cl-tax>—</span></td></tr>
+                <tr><td>Dividends payable</td><td style="text-align:right;"><span data-bs2-cl-div>—</span></td></tr>
+                <tr><td>Accrued compensation</td><td style="text-align:right;"><span data-bs2-cl-comp>—</span></td></tr>
+                <tr><td>Current portion of lease obligation - operations</td><td style="text-align:right;"><span data-bs2-cl-lease-operating>—</span></td></tr>
+                <tr><td>Retirement benefits</td><td style="text-align:right;"><span data-bs2-cl-benefits>—</span></td></tr>
+                <tr><td>Other current liabilities</td><td style="text-align:right;"><span data-bs2-cl-other>—</span></td></tr>
+                <tr class="totals"><th>Total current liabilities</th><th style="text-align:right;"><span data-bs2-cl-total>—</span></th></tr>
+
+                <tr><th colspan="2">Noncurrent liabilities</th></tr>
+                <tr><td>Long-term debt</td><td style="text-align:right;"><span data-bs2-nl-debt>—</span></td></tr>
+                <tr><td>Long-term lease obligations - operating</td><td style="text-align:right;"><span data-bs2-nl-lease-operating>—</span></td></tr>
+                <tr><td>Deferred income taxes</td><td style="text-align:right;"><span data-bs2-nl-deftax>—</span></td></tr>
+                <tr><td>Regulatory liabilities</td><td style="text-align:right;"><span data-bs2-nl-reg>—</span></td></tr>
+                <tr><td>Asset retirement obligations</td><td style="text-align:right;"><span data-bs2-nl-aro>—</span></td></tr>
+                <tr><td>Other Noncurrent liabilities</td><td style="text-align:right;"><span data-bs2-nl-other>—</span></td></tr>
+                <tr class="totals"><th>Total noncurrent liabilities</th><th style="text-align:right;"><span data-bs2-nl-total>-</span></th></tr>
+                <tr><td>Net assets</td><td style="text-align:right;"><span data-bs2-equity>-</span></td></tr>
+                <tr class="totals"><th>Total liabilities and net assets</th><th style="text-align:right;"><span data-bs2-tlse>-</span></th></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="/js/nav.js"></script>
+    <script type="module" src="/js/auth.js"></script>
+    <script type="module" src="/js/financial_statement.js"></script>
+  </body>
+  </html>

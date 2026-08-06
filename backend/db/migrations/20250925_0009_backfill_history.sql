@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS backfill_history (
+  id TEXT PRIMARY KEY,
+  description TEXT,
+  applied_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

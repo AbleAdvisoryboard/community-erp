@@ -1,0 +1,103 @@
+### Base Variables
+@host = http://localhost:3000
+
+### Sign In (returns cookies + CSRF token)
+POST {{@host}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "Passw0rd!"
+}
+
+### Refresh Access Token (use refresh cookie from login)
+POST {{@host}}/api/v1/auth/refresh
+Cookie: erp_refresh_token={{refresh_token}}
+
+### Fetch Current User Profile
+GET {{@host}}/api/v1/auth/me
+Cookie: erp_access_token={{access_token}}
+
+### Reports — List Datasets
+GET {{@host}}/api/v1/reports/datasets
+Cookie: erp_access_token={{access_token}}
+
+### Reports — Describe Single Dataset
+GET {{@host}}/api/v1/reports/datasets/fundraising_donations
+Cookie: erp_access_token={{access_token}}
+
+### Reports — Saved Definitions
+GET {{@host}}/api/v1/reports
+Cookie: erp_access_token={{access_token}}
+
+### Reports — Run Donation Detail (JSON)
+POST {{@host}}/api/v1/reports/{{donations_report_id}}/run
+Cookie: erp_access_token={{access_token}}
+Content-Type: application/json
+X-CSRF-Token: {{csrf_token}}
+
+{
+  "filters": { "payment_method": "ACH" },
+  "limit": 25
+}
+
+### Reports — Run Donation Detail (CSV download)
+POST {{@host}}/api/v1/reports/{{donations_report_id}}/run?format=csv
+Cookie: erp_access_token={{access_token}}
+Accept: text/csv
+Content-Type: application/json
+X-CSRF-Token: {{csrf_token}}
+
+{
+  "filters": { "is_recurring": "true" }
+}
+
+### Reports — Dashboard KPI Cards
+GET {{@host}}/api/v1/reports/dashboard/cards
+Cookie: erp_access_token={{access_token}}
+
+### Communications — Create Message Draft
+POST {{@host}}/api/v1/communications/messages
+Cookie: erp_access_token={{access_token}}
+Content-Type: application/json
+X-CSRF-Token: {{csrf_token}}
+
+{
+  "channel": "Email",
+  "subject": "Demo Announcement",
+  "bodyText": "Hello {{firstName}}, welcome to the Community ERP demo!",
+  "audience": { "contactIds": [1] }
+}
+
+### Communications — Send Draft
+POST {{@host}}/api/v1/communications/messages/1/send
+Cookie: erp_access_token={{access_token}}
+X-CSRF-Token: {{csrf_token}}
+
+### Events — List Upcoming
+GET {{@host}}/api/v1/events
+Cookie: erp_access_token={{access_token}}
+
+### Events — Create Draft Event
+POST {{@host}}/api/v1/events
+Cookie: erp_access_token={{access_token}}
+Content-Type: application/json
+X-CSRF-Token: {{csrf_token}}
+
+{
+  "code": "EVT-CLI-DEMO",
+  "name": "Sample Community Meetup",
+  "startAt": "2025-12-05T18:00:00.000Z",
+  "timezone": "America/Los_Angeles",
+  "capacity": 75
+}
+
+### Dashboard Snapshot
+GET {{@host}}/api/v1/dashboard/snapshot
+Cookie: erp_access_token={{access_token}}
+
+### Calendar
+
+GET http://localhost:3000/api/v1/calendar/volunteers/{{volunteer_token}}
+
+GET http://localhost:3000/api/v1/calendar/events/{{event_token}}

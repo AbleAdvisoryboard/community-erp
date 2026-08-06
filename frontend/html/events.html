@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community ERP - Events &amp; Ticketing</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="logo">Community ERP</div>
+        <nav><!-- nav.js populates items --></nav>
+      </aside>
+      <header class="topbar">
+        <div class="actions">
+          <button class="button secondary" id="toggle-theme">Toggle Theme</button>
+          <button class="button secondary" id="logout-button" style="display:none;">Logout</button>
+          <div class="badge" id="user-display">Guest</div>
+        </div>
+      </header>
+      <main class="content">
+        <h1 class="page-title">Events & Ticketing</h1>
+        <p class="page-subtitle">Plan campaigns, manage registrations, and track sponsorship revenue.</p>
+
+        <section class="card" data-auth-card style="display:none;">
+          <h2>Log In</h2>
+          <form id="login-form" class="login-form" style="display:flex;flex-direction:column;gap:12px;max-width:320px;">
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" value="admin@example.com" required />
+            </label>
+            <label>
+              <span>Password</span>
+              <input type="password" name="password" value="Passw0rd!" required />
+            </label>
+            <button class="button" type="submit">Sign In</button>
+            <p class="page-subtitle" id="login-error" style="display:none;color:var(--color-danger);">Invalid credentials</p>
+          </form>
+        </section>
+
+        
+
+        <section class="card">
+          <h2>Create Event</h2>
+          <form id="event-form" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;align-items:end;">
+            <label>
+              <span>Code</span>
+              <input type="text" name="code" placeholder="EVT-2025" required />
+            </label>
+            <label>
+              <span>Name</span>
+              <input type="text" name="name" required />
+            </label>
+            <label>
+              <span>Start</span>
+              <input type="datetime-local" name="startAt" required />
+            </label>
+            <label>
+              <span>End</span>
+              <input type="datetime-local" name="endAt" />
+            </label>
+            <label>
+              <span>Timezone</span>
+              <input type="text" name="timezone" id="event-timezone" list="timezone-options" placeholder="Search timezone (e.g., EST)" value="America/Los_Angeles" />
+              <datalist id="timezone-options">
+                <!-- USA timezones first -->
+                <option value="America/New_York">Eastern (EST/EDT)</option>
+                <option value="America/Chicago">Central (CST/CDT)</option>
+                <option value="America/Denver">Mountain (MST/MDT)</option>
+                <option value="America/Phoenix">Mountain (no DST)</option>
+                <option value="America/Los_Angeles">Pacific (PST/PDT)</option>
+                <option value="America/Anchorage">Alaska (AKST/AKDT)</option>
+                <option value="Pacific/Honolulu">Hawaii (HST)</option>
+                <!-- World timezones -->
+                <option value="Europe/London">UK (GMT/BST)</option>
+                <option value="Europe/Paris">Central Europe (CET/CEST)</option>
+                <option value="Europe/Berlin">Germany (CET/CEST)</option>
+                <option value="Europe/Athens">Eastern Europe (EET/EEST)</option>
+                <option value="Africa/Cairo">Egypt (EET)</option>
+                <option value="Africa/Johannesburg">South Africa (SAST)</option>
+                <option value="Africa/Nairobi">East Africa (EAT)</option>
+                <option value="Asia/Dubai">Gulf (GST)</option>
+                <option value="Asia/Kolkata">India (IST)</option>
+                <option value="Asia/Bangkok">Thailand (ICT)</option>
+                <option value="Asia/Jakarta">Indonesia (WIB)</option>
+                <option value="Asia/Shanghai">China (CST)</option>
+                <option value="Asia/Hong_Kong">Hong Kong (HKT)</option>
+                <option value="Asia/Singapore">Singapore (SGT)</option>
+                <option value="Asia/Tokyo">Japan (JST)</option>
+                <option value="Asia/Seoul">Korea (KST)</option>
+                <option value="Australia/Sydney">Australia (AEST/AEDT)</option>
+                <option value="Australia/Perth">Australia (AWST)</option>
+                <option value="Pacific/Auckland">New Zealand (NZST/NZDT)</option>
+                <option value="America/Toronto">Canada (Eastern)</option>
+                <option value="America/Vancouver">Canada (Pacific)</option>
+                <option value="America/Mexico_City">Mexico (Central)</option>
+                <option value="America/Bogota">Colombia (COT)</option>
+                <option value="America/Lima">Peru (PET)</option>
+                <option value="America/Santiago">Chile (CLT/CLST)</option>
+                <option value="America/Sao_Paulo">Brazil (BRT)</option>
+                <option value="America/Argentina/Buenos_Aires">Argentina (ART)</option>
+                <option value="UTC">UTC</option>
+                <option value="GMT">GMT</option>
+                <!-- Abbreviations for quick filtering; mapped to IANA in JS on submit -->
+                <option value="EST"></option>
+                <option value="EDT"></option>
+                <option value="CST"></option>
+                <option value="CDT"></option>
+                <option value="MST"></option>
+                <option value="MDT"></option>
+                <option value="PST"></option>
+                <option value="PDT"></option>
+                <option value="AKST"></option>
+                <option value="AKDT"></option>
+                <option value="HST"></option>
+              </datalist>
+            </label>
+            <label>
+              <span>Venue</span>
+              <input type="text" name="venueName" placeholder="Venue name" />
+            </label>
+            <label>
+              <span>City</span>
+              <input type="text" name="venueCity" />
+            </label>
+            <label>
+              <span>State</span>
+              <input type="text" name="venueState" maxlength="2" />
+            </label>
+            <label>
+              <span>Capacity</span>
+              <input type="number" name="capacity" min="0" />
+            </label>
+            <button class="button" type="submit">Create Event</button>
+          </form>
+          <p class="page-subtitle" id="event-form-message" style="display:none;margin-top:12px;"></p>
+        </section>
+
+        <section class="card">
+          <header style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:space-between;">
+            <div>
+              <h2>Events</h2>
+              <p class="page-subtitle" id="events-count">Loading events.</p>
+            </div>
+            <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+              <label style="display:flex;align-items:center;gap:8px;">
+                <input type="checkbox" id="events-upcoming" checked />
+                <span>Upcoming only</span>
+              </label>
+              <select id="event-select" style="min-width:220px;">
+                <option value="">Select event</option>
+              </select>
+            </div>
+          </header>
+          <div class="table-wrapper" style="overflow:auto;margin-top:16px;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Event</th>
+                  <th>Date</th>
+                  <th style="text-align:right;">Registrations</th>
+                  <th style="text-align:right;">Sponsorship</th>
+                </tr>
+              </thead>
+              <tbody data-events-body>
+                <tr><td colspan="5">Sign in to load events.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="card" id="event-details" style="display:none;">
+          <h2>Event Overview</h2>
+          <div id="event-summary" class="grid two" style="gap:16px;margin-bottom:16px;"></div>
+          <div class="grid two" style="gap:24px;align-items:flex-start;">
+            <div>
+              <h3>Tickets</h3>
+              <div class="table-wrapper" style="max-height:240px;overflow:auto;">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th style="text-align:right;">Price</th>
+                      <th style="text-align:right;">Sold / Total</th>
+                    </tr>
+                  </thead>
+                  <tbody data-event-tickets>
+                    <tr><td colspan="4">No tickets.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div>
+              <h3>Sponsors</h3>
+              <div class="table-wrapper" style="max-height:240px;overflow:auto;">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Level</th>
+                      <th style="text-align:right;">Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody data-event-sponsors>
+                    <tr><td colspan="3">No sponsors yet.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <h3 style="margin-top:24px;">Registrations</h3>
+          <div class="table-wrapper" style="max-height:260px;overflow:auto;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Attendee</th>
+                  <th>Ticket</th>
+                  <th style="text-align:right;">Qty</th>
+                  <th>Status</th>
+                  <th>Registered</th>
+                  <th style="text-align:center;">Actions</th>
+                </tr>
+              </thead>
+              <tbody data-event-registrations>
+                <tr><td colspan="6">No registrations yet.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        
+
+        <section class="card" id="event-management" style="display:none;">
+          <h2>Manage Tickets & Attendance</h2>
+          <div class="grid three" style="gap:24px;align-items:flex-start;">
+            <div>
+              <h3>Add Ticket Type</h3>
+              <form id="ticket-form" style="display:flex;flex-direction:column;gap:12px;">
+                <label>
+                  <span>Name</span>
+                  <input type="text" name="name" required />
+                </label>
+                <label>
+                  <span>Type</span>
+                  <select name="type">
+                    <option value="General">General</option>
+                    <option value="VIP">VIP</option>
+                    <option value="Student">Student</option>
+                    <option value="Sponsor">Sponsor</option>
+                    <option value="Staff">Staff</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Price (USD)</span>
+                  <input type="number" name="price" min="0" step="0.01" />
+                </label>
+                <label>
+                  <span>Quantity</span>
+                  <input type="number" name="quantityTotal" min="0" />
+                </label>
+                <button class="button secondary" type="submit">Add Ticket</button>
+              </form>
+              <p class="page-subtitle" id="ticket-form-message" style="display:none;margin-top:8px;"></p>
+            </div>
+            <div>
+              <h3>Register Attendee</h3>
+              <form id="registration-form" style="display:flex;flex-direction:column;gap:12px;">
+                <label>
+                  <span>Contact</span>
+                  <select name="contactId" id="registration-contact">
+                    <option value="">Select contact</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Ticket</span>
+                  <select name="ticketId" id="registration-ticket">
+                    <option value="">Select ticket</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Quantity</span>
+                  <input type="number" name="quantity" min="1" value="1" />
+                </label>
+                <label>
+                  <span>Total Amount</span>
+                  <input type="number" step="0.01" name="totalAmount" min="0" />
+                </label>
+                <button class="button secondary" type="submit">Add Registration</button>
+              </form>
+              <p class="page-subtitle" id="registration-form-message" style="display:none;margin-top:8px;"></p>
+            </div>
+            <div>
+              <h3>Log Sponsor</h3>
+              <form id="sponsor-form" style="display:flex;flex-direction:column;gap:12px;">
+                <label>
+                  <span>Contact</span>
+                  <select name="contactId" id="sponsor-contact">
+                    <option value="">Select contact (optional)</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Sponsor Name</span>
+                  <input type="text" name="sponsorName" required />
+                </label>
+                <label>
+                  <span>Level</span>
+                  <input type="text" name="sponsorLevel" placeholder="Presenting, Gold..." />
+                </label>
+                <label>
+                  <span>Amount</span>
+                  <input type="number" step="0.01" name="amount" min="0" />
+                </label>
+                <button class="button secondary" type="submit">Add Sponsor</button>
+              </form>
+              <p class="page-subtitle" id="sponsor-form-message" style="display:none;margin-top:8px;"></p>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="/js/nav.js"></script>
+    <script type="module" src="/js/auth.js"></script>
+    <script type="module" src="/js/events.js"></script>
+  </body>
+</html>

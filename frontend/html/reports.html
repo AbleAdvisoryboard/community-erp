@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community ERP - Reports & Dashboards</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="logo">Community ERP</div>
+        <nav><!-- nav.js populates items --></nav>
+      </aside>
+      <header class="topbar">
+        <div class="actions">
+          <button class="button secondary" id="toggle-theme">Toggle Theme</button>
+          <button class="button secondary" id="logout-button" style="display:none;">Logout</button>
+          <div class="badge" id="user-display">Guest</div>
+        </div>
+      </header>
+      <main class="content">
+        <h1 class="page-title">Reports & Dashboards</h1>
+        <p class="page-subtitle">Build simple reports, choose what sections to include, and export them for sharing.</p>
+
+        <section class="card" data-auth-card style="display:none;">
+          <h2>Log In</h2>
+          <p class="page-subtitle">Use the seeded admin credentials to explore reporting features.</p>
+          <form id="login-form" class="login-form" style="display:flex;flex-direction:column;gap:12px;max-width:320px;">
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" value="admin@example.com" required />
+            </label>
+            <label>
+              <span>Password</span>
+              <input type="password" name="password" value="Passw0rd!" required />
+            </label>
+            <button class="button" type="submit">Sign In</button>
+            <p class="page-subtitle" id="login-error" style="display:none;color:var(--color-danger);">Invalid credentials</p>
+          </form>
+        </section>
+
+        <section class="card" id="kpi-card-section" style="display:none;">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+            <div>
+              <h2>Dashboard KPIs</h2>
+              <p class="page-subtitle" id="kpi-subtitle">Key metrics across fundraising, volunteers, and programs.</p>
+            </div>
+            <button class="button secondary" id="refresh-kpi">Refresh KPIs</button>
+          </div>
+          <div class="kpi-grid" id="kpi-cards"></div>
+        </section>
+
+        <div class="reports-layout" id="reports-shell">
+          <section class="card" id="saved-reports-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+              <h2>Saved Reports</h2>
+            </div>
+            <p class="page-subtitle" id="reports-intro">Select a saved definition to view or modify.</p>
+            <ul id="saved-reports-list" class="plain-list"></ul>
+          </section>
+
+          <section class="card" id="report-builder-card">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+              <div>
+                <h2 id="builder-title">Report Builder</h2>
+                <p class="page-subtitle" id="builder-subtitle">Pick the report type, choose the sections to show, and apply filters.</p>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px;min-width:200px;">
+                <label class="filter-control">
+                  <span>Report Type</span>
+                  <select id="dataset-select"></select>
+                </label>
+                <label class="filter-control" id="report-name-field">
+                  <span>Report Name</span>
+                  <input type="text" id="report-name" placeholder="e.g. Monthly Donation Detail" />
+                </label>
+                <label class="filter-control" id="report-slug-field">
+                  <span>Slug</span>
+                  <input type="text" id="report-slug" placeholder="donations-monthly-detail" />
+                </label>
+              </div>
+            </div>
+
+            <label class="filter-control" id="report-description-field">
+              <span>Description</span>
+              <textarea id="report-description" rows="2" placeholder="Optional summary"></textarea>
+            </label>
+
+            <div class="builder-grid">
+              <div>
+                <h3 class="section-heading">Report Sections</h3>
+                <p class="page-subtitle">Choose the blocks people should see in this report. Use individual fields when you need something specific.</p>
+                <div id="columns-container" class="report-columns"></div>
+              </div>
+              <div>
+                <h3 class="section-heading">Filters</h3>
+                <div id="filters-container" class="report-filters"></div>
+              </div>
+            </div>
+
+            <div class="builder-actions">
+              <label class="filter-control" style="max-width:220px;">
+                <span>Sort By</span>
+                <select id="sort-column"></select>
+              </label>
+              <label class="filter-control" style="max-width:150px;">
+                <span>Direction</span>
+                <select id="sort-direction">
+                  <option value="desc">Descending</option>
+                  <option value="asc">Ascending</option>
+                </select>
+              </label>
+              <label class="filter-control" style="max-width:120px;">
+                <span>Limit</span>
+                <input type="number" id="result-limit" min="1" max="5000" />
+              </label>
+            </div>
+
+            <div class="builder-buttons">
+              <button class="button" id="run-report">Run Report</button>
+              <button class="button secondary" id="download-pdf">Print / Save PDF</button>
+              <button class="button secondary" id="download-doc">Open in Word / LibreOffice</button>
+              <button class="button secondary" id="download-csv">Download CSV</button>
+              <div class="manage-buttons" id="manage-buttons" style="display:none;gap:8px;">
+                <button class="button secondary" id="save-report">Save Definition</button>
+                <button class="button secondary" id="delete-report" style="background:#f7d4d4;color:#8b1f1f;">Delete</button>
+                <button class="button secondary" id="new-report-button">New</button>
+              </div>
+            </div>
+            <p class="page-subtitle" id="builder-status" style="display:none;"></p>
+
+            <section class="card" id="report-results" style="margin-top:24px;display:none;padding:0;">
+              <div style="padding:20px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+                <div>
+                  <h3 id="results-title">Results</h3>
+                  <p class="page-subtitle" id="results-meta"></p>
+                </div>
+              </div>
+              <div style="overflow:auto;">
+                <table class="table" id="results-table"></table>
+              </div>
+            </section>
+          </section>
+        </div>
+      </main>
+    </div>
+    <script type="module" src="/js/nav.js"></script>
+    <script type="module" src="/js/auth.js"></script>
+    <script type="module" src="/js/reports.js"></script>
+  </body>
+</html>

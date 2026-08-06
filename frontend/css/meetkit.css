@@ -1,0 +1,200 @@
+.meetkit-root { font-family: inherit; color: inherit; }
+.meetkit-root button { font: inherit; }
+
+.meetkit-tabs { display: flex; gap: 8px; border-bottom: 1px solid var(--color-border, #e1e4e8); margin-bottom: 12px; }
+.meetkit-tabs button { padding: 8px 12px; border: 1px solid var(--color-border, #e1e4e8); border-bottom: none; background: var(--color-surface-alt, #f0f4fb); cursor: pointer; border-top-left-radius: 6px; border-top-right-radius: 6px; color: var(--color-text, inherit); }
+.meetkit-tabs button.active { background: var(--color-surface, #f8f9fb); color: var(--color-primary, #1f6feb); }
+
+.meetkit-layout { display: grid; grid-template-columns: 280px 1fr 320px; gap: 12px; }
+.meetkit-sidebar { border: 1px solid var(--color-border, #e1e4e8); border-radius: 8px; background: var(--color-surface, #fff); padding: 10px; }
+.meetkit-main { border: 1px solid var(--color-border, #e1e4e8); border-radius: 8px; background: var(--color-surface, #fff); padding: 10px; min-height: 520px; }
+.meetkit-refs { border: 1px solid var(--color-border, #e1e4e8); border-radius: 8px; background: var(--color-surface, #fff); padding: 10px; }
+
+.meetkit-header { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+.meetkit-header input[type="date"] { padding: 6px 8px; border: 1px solid var(--color-border,#e1e4e8); border-radius: 6px; }
+.meetkit-header .spacer { flex: 1; }
+
+.meetkit-kebab { position: relative; }
+.meetkit-kebab-menu { position: absolute; right: 0; top: 100%; background: var(--color-surface,#fff); border: 1px solid var(--color-border,#e1e4e8); border-radius: 6px; padding: 6px; display: none; z-index: 10; }
+.meetkit-kebab-menu button { display: block; width: 100%; text-align: left; background: transparent; border: none; padding: 6px 8px; cursor: pointer; }
+.meetkit-kebab.open .meetkit-kebab-menu { display: block; }
+
+.meetkit-pages h3 { margin: 0 0 6px 0; font-size: 14px; color: var(--color-muted,#666); }
+.meetkit-pages input { width: 100%; padding: 6px 8px; border: 1px solid var(--color-border,#e1e4e8); border-radius: 6px; margin-bottom: 8px; }
+.meetkit-pages ul { list-style: none; margin: 0; padding: 0; max-height: 360px; overflow: auto; }
+.meetkit-pages li { padding: 6px 8px; border-radius: 6px; cursor: pointer; }
+.meetkit-pages li:hover, .meetkit-pages li:focus { background: var(--color-surface,#f8f9fb); outline: none; }
+
+.meetkit-outliner { list-style: none; margin: 0; padding-left: 0; }
+.meetkit-outliner li { padding: 3px 2px; margin: 0; }
+.meetkit-outliner li .meetkit-block { padding: 4px 6px; border-radius: 4px; }
+.meetkit-outliner li .meetkit-block:focus { outline: 2px solid var(--color-primary,#1f6feb); outline-offset: 2px; }
+.meetkit-outliner ul { list-style: none; padding-left: 20px; margin: 0; }
+
+.meetkit-tag { display: inline-block; padding: 2px 6px; border-radius: 999px; background: var(--color-surface,#f1f5ff); color: var(--color-primary,#1f6feb); font-size: 12px; margin-right: 4px; }
+.meetkit-link { color: var(--color-primary,#1f6feb); text-decoration: none; }
+.meetkit-link:hover { text-decoration: underline; }
+
+.meetkit-refs h3 { margin: 0 0 8px 0; font-size: 14px; }
+.meetkit-refs .meetkit-ref-item { padding: 6px; border-bottom: 1px solid var(--color-border,#e1e4e8); font-size: 13px; }
+.meetkit-refs .meetkit-ref-item:last-child { border-bottom: none; }
+
+/* Whiteboard */
+.meetkit-whiteboard-toolbar { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+.meetkit-whiteboard-canvas { border: none; border-radius: 8px; background: #fff; width: 100%; height: 520px; touch-action: none; }
+.meetkit-color { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--color-border,#e1e4e8); cursor: pointer; }
+.meetkit-color[aria-pressed="true"] { outline: 2px solid var(--color-primary,#1f6feb); outline-offset: 2px; }
+
+/* Map */
+.meetkit-map-wrap { display: grid; grid-template-columns: 1fr 320px; gap: 12px; }
+.meetkit-map { border: 1px solid var(--color-border,#e1e4e8); border-radius: 8px; height: 520px; }
+.meetkit-map-sidebar { border: 1px solid var(--color-border,#e1e4e8); border-radius: 8px; padding: 8px; background: var(--color-surface,#fff); }
+.meetkit-map-sidebar h3 { margin-top: 0; }
+.meetkit-pin { padding: 6px 8px; border-bottom: 1px solid var(--color-border,#e1e4e8); display: flex; justify-content: space-between; gap: 6px; }
+.meetkit-pin:last-child { border-bottom: none; }
+
+/* Graph */
+.meetkit-graph-wrap { display: flex; flex-direction: column; gap: 8px; }
+.meetkit-graph-tools { display:flex; gap:14px; align-items:center; padding:6px 0 10px; }
+.meetkit-graph-canvas { width:100%; height:540px; border:1px solid var(--color-border,#e1e4e8); border-radius:8px; background:#fff; }
+
+/* Focus rings + accessibility */
+.meetkit-root button:focus, .meetkit-root input:focus, .meetkit-root a:focus { outline: 2px solid var(--color-primary,#1f6feb); outline-offset: 2px; }
+
+/* Keep scope isolated */
+.meetkit-root * { box-sizing: border-box; }
+
+.meetkit-toast { position: fixed; right: 16px; bottom: 16px; padding: 8px 12px; background: var(--surface-100, #111); color: var(--text-100, #fff); border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,.2); opacity: 0; transition: opacity .2s; z-index: 9999; }
+.meetkit-toast.show { opacity: 1; }
+
+/* Logseq-like Journal */
+.meetkit-meetings.grid { display:flex; flex-direction:column; gap:12px; }
+.meetkit-meetings__header { display:flex; align-items:center; gap:12px; padding:8px 0; border-bottom:1px solid var(--color-border,#e1e4e8); }
+.meetkit-meetings__header .meetkit-meetings__header-spacer { flex: 1; }
+.meetkit-meetings__date-wrap { position: relative; display: inline-block; }
+.meetkit-meetings__date-wrap input { position: relative; z-index: 1; }
+.meetkit-date-ind { position: absolute; top: -4px; right: -4px; width: 8px; height: 8px; background: var(--color-primary,#1f6feb); border-radius: 50%; display: none; z-index: 2; }
+.meetkit-meetings__nav, .meetkit-meetings__today { padding:6px 20px; border:1px solid var(--color-border,#e1e4e8); background:var(--color-surface-alt,#f8f8f8); color: var(--color-text, inherit); border-radius:6px; cursor:pointer; min-width: 64px; }
+.meetkit-meetings__date { font-weight:600; flex:1; text-align:center; }
+.meetkit-meetings__calendar { border:1px solid var(--color-border,#e1e4e8); border-radius:6px; padding:6px 8px; }
+
+.meetkit-meetings__panes { display:grid; grid-template-columns: 1fr 320px; gap:16px; }
+.meetkit-meetings__left, .meetkit-meetings__right { background:var(--color-surface,#fff); border:1px solid var(--color-border,#e1e4e8); border-radius:10px; padding:12px; }
+.meetkit-meetings__main { background:var(--color-surface,#fff); border:1px solid var(--color-border,#e1e4e8); border-radius:10px; padding:8px 0 16px; min-height: 70vh; }
+
+.meetkit-meetings__section { margin-bottom:14px; }
+.meetkit-meetings__section-title { font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--color-muted,#666); margin-bottom:6px; }
+.meetkit-meetings__list { list-style:none; margin:0; padding:0; }
+.meetkit-meetings__list-item { margin:0; }
+.meetkit-meetings__list-item button { width:100%; text-align:left; padding:6px 8px; border-radius:6px; border:0; background:transparent; color: var(--color-text, inherit); cursor:pointer; }
+.meetkit-meetings__list-item.active button,
+.meetkit-meetings__list-item button:hover { background:var(--color-primary-ghost,#f1f5ff); }
+
+.meetkit-meetings__tools { display:flex; align-items:center; gap:8px; padding:8px 12px; border-bottom:1px solid var(--color-border,#e1e4e8); }
+.meetkit-meetings__spacer { flex: 1; }
+
+/* Mini Calendar */
+.meetkit-calendar { margin: 8px 0 12px; border:1px solid var(--color-border,#e1e4e8); border-radius:10px; overflow:hidden; background: var(--color-surface,#fff); }
+.meetkit-cal-head { display:flex; align-items:center; justify-content:space-between; padding:6px 8px; border-bottom:1px solid var(--color-border,#e1e4e8); }
+.meetkit-cal-head .title { font-weight:600; }
+.meetkit-cal-grid { display:grid; grid-template-columns: repeat(7, 1fr); gap:4px; padding:8px; }
+.meetkit-cal-dow { text-align:center; font-size:12px; color: var(--color-muted,#666); }
+.meetkit-cal-day-btn { position:relative; width:100%; padding:6px 0; text-align:center; border: 1px solid transparent; border-radius:6px; background: transparent; cursor: pointer; color: inherit; }
+.meetkit-cal-day-btn:hover { background: var(--color-primary-ghost,#f5f7fb); }
+.meetkit-cal-day-btn.other { color: var(--color-muted,#888); }
+.meetkit-cal-day-btn.selected { border-color: var(--color-primary,#1f6feb); }
+.meetkit-cal-day-btn .num { position: relative; padding: 2px 6px; border-radius: 999px; }
+.meetkit-cal-day-btn.has-notes .num::before { content:''; position:absolute; inset:-2px -6px; border-radius:999px; border: 2px solid var(--color-primary,#1f6feb); }
+.meetkit-meetings__btn { padding:6px 10px; border:1px solid var(--color-border,#e1e4e8); border-radius:6px; background:var(--color-surface-alt,#f7f7f7); color: var(--color-text, inherit); cursor:pointer; }
+.meetkit-meetings__hint { margin-left:auto; color:var(--color-muted,#666); font-size:12px; }
+
+.meetkit-meetings__outliner { padding:6px 0; }
+.meetkit-meetings__row { display:block; position:relative; padding-left:28px; }
+.meetkit-meetings__row + .meetkit-meetings__row { margin-top:2px; }
+
+.meetkit-meetings__gutter { position:absolute; left:8px; top:8px; width:12px; }
+.meetkit-meetings__bullet { display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--color-muted,#444); transform:translateY(6px); }
+.meetkit-meetings__body { padding:6px 8px; }
+.meetkit-meetings__line { outline:none; min-height:22px; border-radius:6px; padding:2px 4px; }
+.meetkit-meetings__line:focus { background:var(--color-primary-ghost,#f5f7fb); }
+
+.meetkit-meetings__children { margin-left:18px; border-left:1px dashed var(--color-border,#e1e4e8); padding-left:10px; }
+
+.meetkit-meetings__refs-hdr { font-weight:600; margin-bottom:6px; }
+.meetkit-meetings__refbox-title { font-weight:600; margin-top:10px; }
+.meetkit-meetings__refitem { margin:6px 0; }
+.meetkit-meetings__refitem button { border:0; background:transparent; color:var(--color-primary,#2a6df4); cursor:pointer; }
+
+/* Collapsible reference groups */
+.meetkit-refgroup { border-top: 1px solid var(--color-border,#e1e4e8); padding-top: 8px; margin-top: 8px; }
+.meetkit-refgroup:first-child { border-top: 0; padding-top: 0; margin-top: 0; }
+.meetkit-refgroup-toggle { display:flex; align-items:center; gap:8px; border:0; background:transparent; color: var(--color-text, inherit); padding:4px 2px; cursor:pointer; width:100%; text-align:left; }
+.meetkit-refgroup-toggle .caret { transition: transform .15s ease; display:inline-block; }
+.meetkit-refgroup-toggle[aria-expanded="true"] .caret { transform: rotate(90deg); }
+.meetkit-refgroup-count { color: var(--color-muted,#666); font-size: 12px; margin-left: 6px; }
+.meetkit-refgroup-list { margin-top:6px; }
+.meetkit-refgroup-more { display:block; width:100%; border:1px solid var(--color-border,#e1e4e8); background:var(--color-surface,#fff); color: var(--color-text, inherit); border-radius:6px; padding:6px; cursor:pointer; margin-top:6px; }
+
+/* Indent drill-down groups slightly for clarity */
+.meetkit-refgroup-sub { margin-left: 12px; }
+
+/* Modal (How to Use) */
+.meetkit-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.35); display: flex; align-items: flex-start; justify-content: center; padding-top: 10vh; z-index: 2000; }
+.meetkit-modal { width: 680px; max-width: 95vw; background: var(--color-surface,#fff); color: inherit; border: 1px solid var(--color-border,#e1e4e8); border-radius: 10px; box-shadow: 0 12px 28px rgba(0,0,0,.2); }
+.meetkit-modal header { display:flex; align-items:center; justify-content: space-between; padding: 12px 14px; border-bottom: 1px solid var(--color-border,#e1e4e8); }
+.meetkit-modal header h2 { font-size: 16px; margin: 0; }
+.meetkit-modal .meetkit-modal-body { padding: 12px 14px; font-size: 14px; line-height: 1.45; }
+.meetkit-modal .meetkit-modal-body code { background: var(--color-surface-alt,#f7f7f7); padding: 1px 6px; border-radius: 6px; }
+.meetkit-modal .close { border: 1px solid var(--color-border,#e1e4e8); border-radius: 6px; background: var(--color-surface-alt,#f7f7f7); color: var(--color-text, inherit); cursor: pointer; padding: 6px 10px; }
+
+html[data-theme="dark"] .meetkit-meetings__line:focus { background:rgba(255,255,255,0.06); }
+html[data-theme="dark"] .meetkit-meetings__bullet { background:var(--color-muted,#ddd); }
+
+/* Inline like Logseq */
+a.meetkit-page { color:var(--color-primary,#2a6df4); text-decoration:none; border-bottom:1px dashed currentColor; }
+a.meetkit-page:hover { text-decoration:underline; }
+
+html[data-theme="dark"] .meetkit-root { color: var(--color-text, #e6edf3); }
+html[data-theme="dark"] .meetkit-tabs button.active { background: var(--color-surface, #252c3f); }
+html[data-theme="dark"] .meetkit-sidebar,
+html[data-theme="dark"] .meetkit-main,
+html[data-theme="dark"] .meetkit-refs,
+html[data-theme="dark"] .meetkit-map,
+html[data-theme="dark"] .meetkit-map-sidebar {
+  border-color: var(--color-border, #343c52);
+  background: var(--color-surface, #252c3f);
+}
+
+/* Graph switches */
+.meetkit-root .mk-toggle-group { vertical-align: middle; }
+.meetkit-root .mk-switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  border-radius: 9999px;
+  border: 1px solid var(--color-border, #e1e4e8);
+  background: #e9eef5;
+  cursor: pointer;
+  transition: background .2s, border-color .2s, box-shadow .2s;
+}
+.meetkit-root .mk-switch .thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  transition: left .2s;
+}
+.meetkit-root .mk-switch[aria-checked="true"] {
+  background: var(--color-primary, #1f6feb);
+  border-color: var(--color-primary, #1f6feb);
+}
+.meetkit-root .mk-switch-tags[aria-checked="true"] {
+  background: #2dbf71;
+  border-color: #2dbf71;
+}
+.meetkit-root .mk-switch[aria-checked="true"] .thumb { left: 22px; }
+.meetkit-root .mk-switch:focus-visible { box-shadow: 0 0 0 3px rgba(31,110,235,0.35); outline: none; }

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community ERP - First Run Setup</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <main class="setup-page">
+      <section class="setup-panel">
+        <div>
+          <p class="setup-kicker">First Run Setup</p>
+          <h1 class="page-title">Start your Community ERP workspace</h1>
+          <p class="page-subtitle">Add your organization details and create the first administrator account.</p>
+        </div>
+
+        <form id="first-run-setup-form" class="settings-form" novalidate>
+          <label class="filter-control">
+            <span>Organization Name</span>
+            <input type="text" name="organizationName" placeholder="Neighborhood Helpers" required />
+          </label>
+
+          <div class="settings-row">
+            <label class="filter-control">
+              <span>Logo URL</span>
+              <input type="url" name="organizationLogoUrl" placeholder="https://example.org/logo.png" />
+            </label>
+            <label class="filter-control">
+              <span>Upload Logo</span>
+              <input type="file" id="setup-logo-file" accept="image/png,image/jpeg,image/svg+xml,image/webp" />
+              <small class="page-subtitle">Optional. Large PNG/JPG/WebP files are resized automatically.</small>
+            </label>
+          </div>
+
+          <div class="settings-row" style="align-items:center;">
+            <div class="logo-preview" id="setup-logo-preview">No logo</div>
+            <button class="button secondary" type="button" id="clear-setup-logo">Remove Logo</button>
+          </div>
+
+          <div class="settings-row">
+            <label class="filter-control">
+              <span>Admin Name</span>
+              <input type="text" name="adminName" placeholder="Jane Doe" required />
+            </label>
+            <label class="filter-control">
+              <span>Admin Email</span>
+              <input type="email" name="adminEmail" placeholder="jane@example.org" required />
+            </label>
+          </div>
+
+          <label class="filter-control">
+            <span>Admin Password</span>
+            <input type="password" name="adminPassword" autocomplete="new-password" placeholder="At least 10 characters with upper, lower, number, and symbol" required />
+          </label>
+
+          <label class="filter-control">
+            <span>Confirm Password</span>
+            <input type="password" name="confirmPassword" autocomplete="new-password" placeholder="Re-enter admin password" required />
+          </label>
+
+          <button class="button" type="submit">Create Workspace</button>
+          <p class="page-subtitle" id="setup-status" style="display:none;"></p>
+        </form>
+      </section>
+    </main>
+    <script type="module" src="/js/setup.js"></script>
+  </body>
+</html>
